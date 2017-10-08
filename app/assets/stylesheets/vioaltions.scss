@@ -1,0 +1,17 @@
+.violations {
+  margin: 60px auto;
+}
+
+.violations-body {
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  min-height: 300px;
+  legend {
+    padding-left: 30px
+  }
+  .list-violations {
+    padding-left: 30px
+
+  }
+}

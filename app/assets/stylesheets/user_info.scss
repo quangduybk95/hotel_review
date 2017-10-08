@@ -1,0 +1,40 @@
+.wrapper-user-info {
+  margin: 60px auto;
+}
+
+.avatar {
+  margin-top: 30px;
+  padding: 5px;
+  background-color: #909fa7;
+  border-radius: 5px;
+  img {
+    width: 150px;
+    min-height: 120px;
+    max-height: 150px;
+  }
+  .thumbnail {
+    margin-bottom: 0;
+  }
+}
+
+.user-info-body {
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  min-height: 300px;
+}
+
+.upload-image {
+  padding: 5px;
+  background-color: #909fa7;
+  border-radius: 5px;
+  width: 60%;
+  img {
+    min-height: 200px;
+    max-height: 250px;
+  }
+  .thumbnail {
+    margin-bottom: 0;
+    width: auto;
+  }
+}

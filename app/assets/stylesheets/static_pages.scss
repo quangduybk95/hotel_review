@@ -1,0 +1,83 @@
+.locations {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  cursor: pointer;
+}
+.list-location {
+  overflow-y: scroll;
+  max-height: 450px;
+}
+
+.location-details {
+  min-height: 650px;
+  min-width: 1000px;
+  max-height: 650px;
+  max-width: 1000px;
+}
+
+.panel {
+  position: relative;
+}
+
+.panel > .panel-heading:after, .panel > .panel-heading:before {
+  position: absolute;
+  top: 11px;
+  left: -16px;
+  right: 100%;
+  width: 0;
+  height: 0;
+  display: block;
+  content: " ";
+  border-color: transparent;
+  border-style: solid solid outset;
+  pointer-events: none;
+}
+
+.panel > .panel-heading:after {
+  border-width: 7px;
+  border-right-color: #f7f7f7;
+  margin-top: 1px;
+  margin-left: 2px;
+}
+
+.panel > .panel-heading:before {
+  border-right-color: #ddd;
+  border-width: 8px;
+}
+
+.list-comments {
+  max-height: 550px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.comment-box {
+  margin-top: 10px;
+  width: 90%;
+  margin-left: 10%;
+  border-radius: 5px;
+}
+
+.address {
+  font-style: oblique;
+}
+
+.description{
+  margin-bottom: 20px;
+}
+
+.footer-static{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  height: 60px;
+}
+
+.notrz {
+  resize:none;
+}
