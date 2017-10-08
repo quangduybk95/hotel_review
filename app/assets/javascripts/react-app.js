@@ -59,7 +59,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var translate = __webpack_require__(272);
-	translate.registerTranslations('jp', __webpack_require__(354));
+	translate.registerTranslations('jp', __webpack_require__(353));
 
 	if (localStorage.locale == null) {
 	  localStorage.setItem('locale', 'jp');
@@ -22113,6 +22113,10 @@
 
 	var _user_info2 = _interopRequireDefault(_user_info);
 
+	var _show = __webpack_require__(355);
+
+	var _show2 = _interopRequireDefault(_show);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Routes = function Routes(props) {
@@ -22123,7 +22127,8 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _signup2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/my-profile', component: _user_update2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/users/:user_id', component: _user_info2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/users/:user_id', component: _user_info2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/show/:hotel_id', component: _show2.default })
 	  );
 	};
 	exports.default = Routes;
@@ -27506,6 +27511,10 @@
 
 	var _footer2 = _interopRequireDefault(_footer);
 
+	var _index = __webpack_require__(354);
+
+	var _index2 = _interopRequireDefault(_index);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27530,6 +27539,7 @@
 	        'section',
 	        null,
 	        React.createElement(_navbar2.default, { current_page: 1 }),
+	        React.createElement(_index2.default, null),
 	        React.createElement(_footer2.default, null)
 	      );
 	    }
@@ -27777,11 +27787,7 @@
 	  value: true
 	});
 	var BASE_URL = exports.BASE_URL = 'http://localhost:3000';
-	var VIOLATIONS_URL = exports.VIOLATIONS_URL = BASE_URL + '/violations';
-	var NEW_URL = exports.NEW_URL = BASE_URL + '/create';
-	var BASE_URL_API = exports.BASE_URL_API = BASE_URL + '/api/';
-	var VIOLATIONS_API = exports.VIOLATIONS_API = BASE_URL_API + '/violations';
-	var LOCATIONS_API = exports.LOCATIONS_API = BASE_URL_API + '/locations/';
+	var HOTELS_API = exports.HOTELS_API = BASE_URL + '/api/hotels/';
 	var API_USER_INFO_URL = exports.API_USER_INFO_URL = BASE_URL + '/api/users/';
 	var API_SIGN_UP_URL = exports.API_SIGN_UP_URL = BASE_URL + '/api/sign_up';
 	var API_USER_UPDATE_URL = exports.API_USER_UPDATE_URL = BASE_URL + '/api/users/';
@@ -27789,10 +27795,10 @@
 	var API_SIGN_OUT_URL = exports.API_SIGN_OUT_URL = BASE_URL + '/api/sign_out';
 	var SIGN_UP_URL = exports.SIGN_UP_URL = '/signup';
 	var SIGN_IN_URL = exports.SIGN_IN_URL = BASE_URL + '/login';
-	var USERS_API = exports.USERS_API = BASE_URL_API + '/users';
-	var USER_INFO_URL = exports.USER_INFO_URL = BASE_URL + '/users/';
 	var CURRENT_USER_INFO_URL = exports.CURRENT_USER_INFO_URL = BASE_URL + '/my-profile';
-	var CREATE_LOCATION_URL = exports.CREATE_LOCATION_URL = BASE_URL + '/new-location';
+	var CREATE_HOTEL_URL = exports.CREATE_HOTEL_URL = BASE_URL + '/new-hotel';
+	var HOTEL_URL = exports.HOTEL_URL = BASE_URL + '/show/';
+
 	var USERS_IMPORT = exports.USERS_IMPORT = BASE_URL + '/users-import';
 
 	var header = {};
@@ -31248,7 +31254,7 @@
 	        React.createElement(
 	          "p",
 	          { className: "text-center" },
-	          "SIG GROUP"
+	          "Coredump \u30C1\u30FC\u30E0"
 	        )
 	      );
 	    }
@@ -37803,8 +37809,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
-/* 353 */,
-/* 354 */
+/* 353 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37866,6 +37871,249 @@
 	    }
 	  }
 	};
+
+/***/ },
+/* 354 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(React) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _axios = __webpack_require__(246);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _constant = __webpack_require__(245);
+
+	var constant = _interopRequireWildcard(_constant);
+
+	var _reactAlert = __webpack_require__(289);
+
+	var _reactAlert2 = _interopRequireDefault(_reactAlert);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Hotels = function (_React$Component) {
+	  _inherits(Hotels, _React$Component);
+
+	  function Hotels(props) {
+	    _classCallCheck(this, Hotels);
+
+	    var _this = _possibleConstructorReturn(this, (Hotels.__proto__ || Object.getPrototypeOf(Hotels)).call(this, props));
+
+	    _this.state = {
+	      hotels: []
+	    };
+
+	    return _this;
+	  }
+
+	  _createClass(Hotels, [{
+	    key: 'showAlert',
+	    value: function showAlert(text) {
+	      this.msg.show(text, {
+	        time: 3000,
+	        type: 'success',
+	        icon: React.createElement('img', { src: '/assets/warning.png' })
+	      });
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var _this2 = this;
+
+	      _axios2.default.get(constant.HOTELS_API).then(function (response) {
+	        _this2.setState({
+	          hotels: response.data.hotels
+	        });
+	      }).catch(function (error) {
+	        this.showAlert(translate('app.error.error'));
+	      });
+	    }
+	  }, {
+	    key: 'hotelClick',
+	    value: function hotelClick(index) {
+	      window.location = constant.HOTEL_URL + this.state.hotels[index].id;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      return React.createElement(
+	        'div',
+	        { className: 'hotels-index' },
+	        React.createElement(_reactAlert2.default, _extends({ ref: function ref(a) {
+	            return _this3.msg = a;
+	          } }, constant.ALERT_OPTIONS)),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'col-md-10 col-md-offset-1' },
+	            this.state.hotels.map(function (hotel, index) {
+	              return React.createElement(
+	                'div',
+	                { className: 'col-md-3', onClick: _this3.hotelClick.bind(_this3, index) },
+	                React.createElement(
+	                  'div',
+	                  { className: 'hotel text-center pmd-card card-default pmd-z-depth' },
+	                  React.createElement('img', { src: hotel.image, width: 200, height: 200 }),
+	                  React.createElement(
+	                    'p',
+	                    null,
+	                    hotel.name
+	                  )
+	                )
+	              );
+	            })
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Hotels;
+	}(React.Component);
+
+	exports.default = Hotels;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+/* 355 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(React) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _axios = __webpack_require__(246);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _constant = __webpack_require__(245);
+
+	var constant = _interopRequireWildcard(_constant);
+
+	var _reactAlert = __webpack_require__(289);
+
+	var _reactAlert2 = _interopRequireDefault(_reactAlert);
+
+	var _navbar = __webpack_require__(244);
+
+	var _navbar2 = _interopRequireDefault(_navbar);
+
+	var _footer = __webpack_require__(287);
+
+	var _footer2 = _interopRequireDefault(_footer);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Hotel = function (_React$Component) {
+	  _inherits(Hotel, _React$Component);
+
+	  function Hotel(props) {
+	    _classCallCheck(this, Hotel);
+
+	    var _this = _possibleConstructorReturn(this, (Hotel.__proto__ || Object.getPrototypeOf(Hotel)).call(this, props));
+
+	    _this.state = {
+	      hotel: {}
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Hotel, [{
+	    key: 'showAlert',
+	    value: function showAlert(text) {
+	      this.msg.show(text, {
+	        time: 3000,
+	        type: 'success',
+	        icon: React.createElement('img', { src: '/assets/warning.png' })
+	      });
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var _this2 = this;
+
+	      _axios2.default.get(constant.HOTELS_API + this.props.params.hotel_id).then(function (response) {
+	        _this2.setState({
+	          hotel: response.data.hotel
+	        });
+	      }).catch(function (error) {
+	        this.showAlert(translate('app.error.error'));
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(_navbar2.default, { current_page: 4 }),
+	        React.createElement(
+	          'div',
+	          { className: 'hotel-show' },
+	          React.createElement(_reactAlert2.default, _extends({ ref: function ref(a) {
+	              return _this3.msg = a;
+	            } }, constant.ALERT_OPTIONS)),
+	          React.createElement(
+	            'div',
+	            { className: 'row' },
+	            React.createElement(
+	              'div',
+	              { className: 'col-md-10 col-md-offset-1' },
+	              React.createElement(
+	                'div',
+	                { className: 'pmd-card card-default pmd-z-depth' },
+	                'sadfg'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(_footer2.default, null)
+	      );
+	    }
+	  }]);
+
+	  return Hotel;
+	}(React.Component);
+
+	exports.default = Hotel;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }
 /******/ ]);

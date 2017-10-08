@@ -11,6 +11,7 @@
     password: "123456",
   )
 end
+
 User.all.each do |user|
   user.update_attributes(
     profile_attributes: {
@@ -21,5 +22,28 @@ User.all.each do |user|
       avatar: Faker::Avatar.image,
       description: Faker::Lorem.sentence
     }
+  )
+end
+
+(1..50).each do |hotel|
+  Hotel.create(
+    name: Faker::Company.name,
+    address: Faker::Address.name,
+    phone: Faker::PhoneNumber.phone_number,
+    link: "https://google.com",
+    image: "https://media-cdn.tripadvisor.com/media/photo-o/0e/d5/8e/98/hotel-carlos-i.jpg",
+    stars: rand(1..7),
+    cost: rand(30.0..100.0),
+    latitude: rand(20.990127..21.0312335),
+    longitude: rand(105.795982..105.856032)
+  )
+end
+
+Hotel.all.each do |hotel|
+  Review.create(
+    comment: Faker::Lorem.sentence,
+    user_id: rand(1..50),
+    hotel_id: hotel.id,
+    rate: rand(1..5)
   )
 end

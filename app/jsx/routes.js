@@ -5,6 +5,7 @@ import Signup from './components/users/signup'
 import Login from './components/users/login'
 import UserUpdate from './components/users/user_update'
 import UserInfo from './components/users/user_info'
+import Hotel from './components/hotels/show'
 const Routes = (props) => (
   <Router {...props}>
     <Route path='/' component={Home}/>
@@ -12,6 +13,8 @@ const Routes = (props) => (
     <Route path='/login' component={Login}/>
     <Route path='/my-profile' component={UserUpdate}/>
     <Route path='/users/:user_id' component={UserInfo}/>
+    <Route path='/show/:hotel_id' component={Hotel}/>
+
   </Router>
 );
 export default Routes;

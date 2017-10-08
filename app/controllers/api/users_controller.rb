@@ -11,7 +11,7 @@ module Api
     end
 
     def index
-      get_users_by_count_locations
+
     end
 
     private
@@ -25,9 +25,6 @@ module Api
       return if @user
     end
 
-    def get_users_by_count_locations
-      @users = User.joins(:locations).group(:user_id).having('count(user_id) > 0').order('count(user_id) desc')
-    end
   end
 
 end

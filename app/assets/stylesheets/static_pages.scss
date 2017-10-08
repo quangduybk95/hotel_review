@@ -70,8 +70,7 @@ body {
 }
 
 .footer-static{
-  position: fixed;
-  bottom: 0;
+  position: absolute;
   width: 100%;
   margin-right: 0 !important;
   margin-left: 0 !important;
@@ -80,4 +79,8 @@ body {
 
 .notrz {
   resize:none;
+}
+
+.hotels-index {
+  min-height: 600px;
 }

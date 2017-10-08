@@ -13,5 +13,6 @@ class User < ApplicationRecord
             format: {with: VALID_EMAIL_REGEX}, uniqueness: {case_sensitive: false}
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile, update_only: true
-  has_many :locations
+  has_many :hotels
+  has_many :reviews
 end
