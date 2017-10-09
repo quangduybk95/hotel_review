@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+How to run ? 
 
-Things you may want to cover:
+* bundle
 
-* Ruby version
+* yarn install (install yarn before run)
 
-* System dependencies
+* yarn start
 
-* Configuration
+* rails db:migrate
 
-* Database creation
+* rails db:seed
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Go to localhost:3000
