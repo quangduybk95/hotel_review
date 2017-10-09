@@ -33,16 +33,18 @@ end
     link: "https://google.com",
     image: "https://media-cdn.tripadvisor.com/media/photo-o/0e/d5/8e/98/hotel-carlos-i.jpg",
     stars: rand(1..7),
-    cost: rand(30.0..100.0),
+    cost: rand(30..100),
     latitude: rand(20.990127..21.0312335),
-    longitude: rand(105.795982..105.856032)
+    longitude: rand(105.795982..105.856032),
+    user_id: rand(1..50),
+    description: Faker::Lorem.paragraph
   )
 end
 
 Hotel.all.each do |hotel|
   Review.create(
     comment: Faker::Lorem.sentence,
-    user_id: rand(1..50),
+    user_id: hotel.user.id,
     hotel_id: hotel.id,
     rate: rand(1..5)
   )

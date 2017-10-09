@@ -19,9 +19,11 @@ ActiveRecord::Schema.define(version: 20171008141550) do
     t.string "link"
     t.string "image"
     t.integer "stars"
-    t.float "cost"
+    t.integer "cost"
     t.float "latitude", limit: 30
     t.float "longitude", limit: 30
+    t.integer "user_id"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

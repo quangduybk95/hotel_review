@@ -1,6 +1,4 @@
 json.hotel do
-  json.id @hotel.id
-  json.image @hotel.image
-  json.name @hotel.name
+  json.info @hotel
   json.reviews @hotel.reviews
 end

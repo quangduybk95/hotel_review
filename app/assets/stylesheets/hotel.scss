@@ -9,5 +9,78 @@
 }
 
 .hotel-show{
-  min-height: 600px;
+  min-height: calc(100vh - 140px);
+}
+
+.hotel-card{
+  min-height: calc(100vh - 200px);
+}
+
+.img-hotel {
+  padding: 0;
+}
+
+.info-hotel {
+  background-color: #ccc;
+  height: 500px;
+}
+
+.review {
+  margin-top: 10px;
+}
+
+.hotel-stars{
+  font-size: 30px;
+}
+.reviews-list{
+  background-color: #ccc;
+}
+.reviews{
+  background-color: #fff;
+}
+
+.panel {
+  position: relative;
+}
+
+.panel > .panel-heading:after, .panel > .panel-heading:before {
+  position: absolute;
+  top: 11px;
+  left: -16px;
+  right: 100%;
+  width: 0;
+  height: 0;
+  display: block;
+  content: " ";
+  border-color: transparent;
+  border-style: solid solid outset;
+  pointer-events: none;
+}
+
+.panel > .panel-heading:after {
+  border-width: 7px;
+  border-right-color: #f7f7f7;
+  margin-top: 1px;
+  margin-left: 2px;
+}
+
+.panel > .panel-heading:before {
+  border-right-color: #ddd;
+  border-width: 8px;
+}
+
+.comment-box {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.list-comments{
+}
+
+.comment-text{
+  word-wrap: break-word;
+  width : auto;
+  max-height: 40px;
+  overflow-y: scroll;
 }

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as constant from  '../../constant';
 import AlertContainer from 'react-alert';
+let translate = require('counterpart');
 
 
 export default class Hotels extends React.Component {
@@ -45,7 +46,7 @@ export default class Hotels extends React.Component {
           <div className="col-md-10 col-md-offset-1">
             {this.state.hotels.map((hotel, index) => {
               return (
-                <div className="col-md-3" onClick={this.hotelClick.bind(this, index)}>
+                <div key={index} className="col-md-3" onClick={this.hotelClick.bind(this, index)}>
                   <div className="hotel text-center pmd-card card-default pmd-z-depth">
                     <img src={hotel.image} width={200} height={200}/>
                     <p>{hotel.name}</p>
