@@ -7,7 +7,9 @@ export default class Home extends React.Component {
       <section>
         <NavBar current_page={1}/>
         <Hotels/>
-        <Footer/>
+        <div className="footer-non-static navbar-default">
+          <p className="text-center">Coredump チーム</p>
+        </div>
       </section>
     )
   }
