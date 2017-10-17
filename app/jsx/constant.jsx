@@ -8,7 +8,7 @@ export const API_SIGN_OUT_URL = BASE_URL + '/api/sign_out';
 export const SIGN_UP_URL = '/signup';
 export const SIGN_IN_URL = BASE_URL + '/login';
 export const CURRENT_USER_INFO_URL = BASE_URL + '/my-profile';
-export const CREATE_HOTEL_URL = BASE_URL + '/new-hotel';
+export const CREATE_HOTEL_URL = BASE_URL + '/create';
 export const HOTEL_URL = BASE_URL + '/show/';
 
 export const USERS_IMPORT = BASE_URL + '/users-import';
@@ -24,6 +24,7 @@ if (localStorage.grUser != null) {
 }
 export const headers = header;
 export const DEFAULT_AVATAR = 'https://i.ytimg.com/vi/nMGUVPQC1Vo/maxresdefault.jpg';
+export const DEFAULT_IMAGE = 'http://ihg.scene7.com/is/image/ihg/holiday-inn-hotel-and-suites-oakland-2533422671-4x3'
 let alertOptions = {
   offset: 14,
   position: 'top right',

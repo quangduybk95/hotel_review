@@ -45,7 +45,7 @@ export default class Navbar extends React.Component {
   }
 
   createReviewCLick() {
-    window.location = constant.CREATE_LOCATION_URL
+    window.location = constant.CREATE_HOTEL_URL
   }
 
   usersImport() {
@@ -91,6 +91,9 @@ export default class Navbar extends React.Component {
                   <span className='caret'></span>
                 </a>
                 <ul className='dropdown-menu'>
+                  <li>
+
+                  </li>
                   <li onClick={this.settingBtnClick.bind(this)}>
                     <a>{translate('app.static_pages.setting')}</a>
                   </li>

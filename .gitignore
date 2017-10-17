@@ -23,3 +23,5 @@
 .byebug_history
 
 .idea/*
+
+/app/assets/javascripts/react-app.js

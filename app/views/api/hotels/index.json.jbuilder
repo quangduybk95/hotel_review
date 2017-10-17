@@ -1,1 +1,1 @@
-json.hotels Hotel.all
+json.hotels @hotels

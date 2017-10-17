@@ -31,7 +31,7 @@ end
     address: Faker::Address.name,
     phone: Faker::PhoneNumber.phone_number,
     link: "https://google.com",
-    image: "https://media-cdn.tripadvisor.com/media/photo-o/0e/d5/8e/98/hotel-carlos-i.jpg",
+    image: "http://www.rwsentosa.com/portals/0/rws%20revamp/hotels/hard%20rock%20hotel/Gallery/Enlarge/HRH01.jpg",
     stars: rand(1..7),
     cost: rand(30..100),
     latitude: rand(20.990127..21.0312335),
