@@ -5,10 +5,14 @@ module Api
     def update
     end
 
+    def create
+      @review = Review.create review_params
+    end
+
     private
 
-    def user_params
-      params.require(:reivew).permit Review::UPDATE_PARAMS
+    def review_params
+      params.require(:review).permit Review::CREATE_PARAMS
     end
 
     def find_review

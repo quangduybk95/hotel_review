@@ -10,7 +10,7 @@ export const SIGN_IN_URL = BASE_URL + '/login';
 export const CURRENT_USER_INFO_URL = BASE_URL + '/my-profile';
 export const CREATE_HOTEL_URL = BASE_URL + '/create';
 export const HOTEL_URL = BASE_URL + '/show/';
-
+export const API_REVIEW_URL = BASE_URL + '/api/reviews/';
 export const USERS_IMPORT = BASE_URL + '/users-import';
 
 let header = {}

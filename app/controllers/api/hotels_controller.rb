@@ -1,6 +1,6 @@
 module Api
   class HotelsController < BaseController
-    before_action :find_hotel , only: [:show, :update]
+    before_action :find_hotel, only: [:show, :update]
 
     def show
 
@@ -20,13 +20,15 @@ module Api
       elsif params[:stars].present?
         search_by_stars
       else
-        @hotels = Hotel.all
+        @hotels = Hotel.all.order(created_at: :desc)
       end
-
     end
 
     def create
       @hotel = Hotel.create hotel_params
+      if @hotel.save
+        @review = Review.create(user_id: params[:hotel][:user_id], comment: params[:review][:review], rate: params[:review][:rate], hotel_id: @hotel.id)
+      end
     end
 
     private
@@ -41,7 +43,7 @@ module Api
     end
 
     def cost_desc
-        @hotels = Hotel.all.order(cost: :desc)
+      @hotels = Hotel.all.order(cost: :desc)
     end
 
     def cost_asc

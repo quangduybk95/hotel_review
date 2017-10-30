@@ -1,5 +1,6 @@
 import moment from 'moment'
 import * as constant from  '../../constant';
+import StarRatingComponent from 'react-star-rating-component';
 
 export default class Comment extends React.Component {
   constructor(props) {
@@ -33,8 +34,16 @@ export default class Comment extends React.Component {
         <div className="col-md-8">
           <div className="panel panel-default">
             <div className="panel-heading">
-              <strong>{this.state.comment.name}</strong> <span
-              className="text-muted">{moment(new Date(parseFloat(this.state.comment.created_at))).format('DD/MM/YYYY, h:mm:ss a')}</span>
+              <strong>{this.state.comment.user_name}</strong> <span
+              className="text-muted">{moment(new Date(this.state.comment.created_at)).format('DD/MM/YYYY, h:mm:ss a')}</span>
+              <p className="text-center">
+                <StarRatingComponent
+                  name="rate1"
+                  starCount={5}
+                  value={this.state.comment.rate}
+                  editing={false}
+                />
+              </p>
             </div>
             <div className="panel-body">
               <p className="comment-text">{this.state.comment.comment}</p>

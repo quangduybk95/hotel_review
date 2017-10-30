@@ -15,4 +15,5 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :profile, update_only: true
   has_many :hotels
   has_many :reviews
+  has_many :likes
 end

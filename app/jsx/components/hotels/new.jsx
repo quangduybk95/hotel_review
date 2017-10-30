@@ -5,6 +5,7 @@ import {
 import SearchBox from 'react-google-maps/lib/places/SearchBox';
 import update from 'react-addons-update';
 import AlertContainer from 'react-alert';
+import StarRatingComponent from 'react-star-rating-component';
 
 import axios from 'axios';
 import * as constant from  '../../constant';
@@ -85,7 +86,10 @@ export default class New_Hotel extends React.Component {
         stars: 3,
         cost: 10,
         user_id: JSON.parse(localStorage.grUser).user_id,
-      }
+      },
+      rate: 0,
+      review: ""
+
     };
   }
 
@@ -147,19 +151,20 @@ export default class New_Hotel extends React.Component {
     formData.append('hotel[phone]', this.state.hotel.phone);
     formData.append('hotel[cost]', this.state.hotel.cost);
     formData.append('hotel[stars]', this.state.hotel.stars);
+    formData.append('review[review]', this.state.review);
+    formData.append('review[rate]', this.state.rate);
 
     if (this.state.image != null)
       formData.append('hotel[image]', this.state.image);
 
     axios.post(constant.HOTELS_API, formData)
       .then(response => {
-        if (response.data.status == 200)
-        {
+        if (response.data.status == 200) {
           this.showAlert(translate('app.error.success'));
           window.location = constant.BASE_URL
         }
-        else
-        {}
+        else {
+        }
 
       })
       .catch(error => {
@@ -248,6 +253,15 @@ export default class New_Hotel extends React.Component {
     this.setState({hotel: newHotel});
   }
 
+  onStarClick(nextValue, prevValue, name) {
+
+    this.setState({rate: nextValue});
+  }
+
+  reviewChange(event) {
+    this.setState({review: event.target.value});
+  }
+
   render() {
     return (
       <section className="new-page">
@@ -294,13 +308,20 @@ export default class New_Hotel extends React.Component {
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
+                <label>Stars</label>
+                <input value={this.state.hotel.stars} onChange={this.handleChangeInfo.bind(this, 'stars')}
+                       type="text" className="form-control"/>
+              </div>
+              <div className="form-group">
                 <label>Phone number</label>
-                <input placeholder="0975700717" value={this.state.hotel.phone} onChange={this.handleChangeInfo.bind(this, 'phone')}
+                <input placeholder="0975700717" value={this.state.hotel.phone}
+                       onChange={this.handleChangeInfo.bind(this, 'phone')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
                 <label>Link</label>
-                <input placeholder="http://google.com" value={this.state.hotel.link} onChange={this.handleChangeInfo.bind(this, 'link')}
+                <input placeholder="http://google.com" value={this.state.hotel.link}
+                       onChange={this.handleChangeInfo.bind(this, 'link')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
@@ -314,7 +335,23 @@ export default class New_Hotel extends React.Component {
                           onChange={this.handleChangeInfo.bind(this, 'description')} rows="3" type="text"
                           className="form-control notrz"/>
               </div>
-
+              <hr/>
+              <div className="form-group">
+                <label>Review</label>
+                <textarea value={this.state.review.review}
+                          onChange={this.reviewChange.bind(this)} rows="3" type="text"
+                          className="form-control notrz"/>
+              </div>
+              <label>Rate</label>
+              <div className="hotel-stars">
+                <StarRatingComponent
+                  name="rate1"
+                  starCount={5}
+                  value={this.state.review.rate}
+                  editing={true}
+                  onStarClick={this.onStarClick.bind(this)}
+                />
+              </div>
               <button className="btn btn-primary btn-create" onClick={this.submitEvent.bind(this)}>Create</button>
             </div>
           </div>

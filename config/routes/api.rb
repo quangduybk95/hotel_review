@@ -8,7 +8,7 @@ namespace :api, defaults: {format: "json"} do
     resources :users, only: [:show, :update, :index]
     resources :hotels do
       resources :reviews
+      resources :likes
     end
-
     end
 end

@@ -28,6 +28,7 @@ gem "carrierwave"
 gem "cloudinary"
 gem "carrierwave-base64"
 gem "config"
+gem 'will_paginate', '~> 3.1.0'
 
 group :development, :test do
   gem "pry"

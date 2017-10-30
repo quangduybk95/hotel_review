@@ -14,6 +14,11 @@ export default class Hotel extends React.Component {
       info: {},
       image: "",
       reviews: [],
+      newReview_comment: '',
+      newReview_rate: 1,
+      like: 1,
+      liked : true,
+      like_id: 1
     }
   }
 
@@ -25,9 +30,9 @@ export default class Hotel extends React.Component {
     });
   }
 
-  componentWillMount() {
+  getData() {
     let self = this
-    axios.get(constant.HOTELS_API + this.props.params.hotel_id)
+    axios.get(constant.HOTELS_API + this.props.params.hotel_id+'/?user_id='+JSON.parse(localStorage.grUser).user_id)
       .then((response) => {
         let avatar = {url: ''};
         if (response.data.hotel.info.image.url == null)
@@ -38,12 +43,83 @@ export default class Hotel extends React.Component {
         self.setState({
           info: response.data.hotel.info,
           image: response.data.hotel.info.image,
-          reviews: response.data.hotel.reviews
+          reviews: response.data.hotel.reviews,
+          like: response.data.hotel.like,
+          liked: response.data.hotel.liked,
+          like_id: response.data.hotel.like_id,
+          newReview_comment: ''
         })
       })
       .catch(function (error) {
         self.showAlert(translate('app.error.error'));
       });
+  }
+
+  createReview() {
+    let formData = new FormData();
+    formData.append('review[user_id]', JSON.parse(localStorage.grUser).user_id);
+    formData.append('review[hotel_id]', this.props.params.hotel_id);
+    formData.append('review[comment]', this.state.newReview_comment);
+    formData.append('review[rate]', this.state.newReview_rate);
+    let self = this
+    axios.post(constant.HOTELS_API + this.props.params.hotel_id + '/reviews/', formData)
+      .then((response) => {
+        if (response.data.status == 200) {
+          self.getData()
+        }
+        else {
+        }
+      })
+      .catch(function (error) {
+        self.showAlert(translate('app.error.error'));
+      });
+  }
+
+  likeBtn(){
+    let formData = new FormData();
+    formData.append('like[user_id]', JSON.parse(localStorage.grUser).user_id);
+    let self = this
+    axios.post(constant.HOTELS_API + this.props.params.hotel_id + '/likes/', formData)
+      .then((response) => {
+        if (response.data.status == 200) {
+          self.getData()
+        }
+        else {
+        }
+      })
+      .catch(function (error) {
+        self.showAlert(translate('app.error.error'));
+      });
+  }
+
+  unlikeBtn(){
+    let formData = new FormData();
+    formData.append('like[user_id]', JSON.parse(localStorage.grUser).user_id);
+    let self = this
+    axios.delete(constant.HOTELS_API + this.props.params.hotel_id + '/likes/'+this.state.like_id, formData)
+      .then((response) => {
+        if (response.data.status == 200) {
+          self.getData()
+        }
+        else {
+        }
+      })
+      .catch(function (error) {
+        self.showAlert(translate('app.error.error'));
+      });
+  }
+
+  componentWillMount() {
+    this.getData()
+  }
+
+  commentChange(event) {
+    this.setState({newReview_comment: event.target.value})
+  }
+
+  onStarClick(nextValue, prevValue, name) {
+
+    this.setState({newReview_rate: nextValue});
   }
 
   render() {
@@ -77,15 +153,16 @@ export default class Hotel extends React.Component {
                     {this.state.reviews.length > 0 ?
                       (<Comment comment={this.state.reviews[0]}/>) : ""}
                   </div>
+                  {this.state.liked? <button className="btn btn-danger" onClick={this.unlikeBtn.bind(this)}>Unlike</button> : <button className="btn btn-primary" onClick={this.likeBtn.bind(this)}>Like</button>}
+                  <span>{this.state.like} users liked</span>
                 </div>
                 <div className="col-md-7 text-center img-hotel">
-                  <img src={this.state.image.url || this.state.image} height={500} width='100%'/>
+                  <img src={this.state.image.url || this.state.image} height={700} width='100%'/>
                 </div>
-
 
                 <div className="row">
                   <div className="col-md-offset-3 col-md-6 reviews">
-                    <legend style={{marginTop: '20'}}><h1>レビュー一覧</h1></legend>
+                    <legend style={{marginTop: '20'}}><h1>他のレビュー一覧</h1></legend>
                     <div>
                       {this.state.reviews.filter((comment, index) => (index > 0)).map((comment, index) => {
                         return (
@@ -93,6 +170,23 @@ export default class Hotel extends React.Component {
                         )
                       })}
                     </div>
+                    <div className="row" style={{marginBottom: '30'}}>
+                      <div className="col-md-6">
+                      <input placeholder="write comment" type="text" className="form-control" value={this.state.newReview_comment}
+                             onChange={this.commentChange.bind(this)}/>
+                      </div>
+                      <div className="col-md-3">
+                        <StarRatingComponent
+                          name="rate1"
+                          starCount={5}
+                          value={this.state.newReview_rate}
+                          editing={true}
+                          onStarClick={this.onStarClick.bind(this)}
+                        />
+                      </div>
+                      <button onClick={this.createReview.bind(this)} className="col-md-3 btn btn-primary">Add</button>
+                    </div>
+
                   </div>
                 </div>
 
@@ -100,7 +194,9 @@ export default class Hotel extends React.Component {
             </div>
           </div>
         </div>
-        <Footer/>
+        <div className="navbar-default" style={{height: '100', paddingTop: '30'}}>
+          <p className="text-center">Coredump チーム</p>
+        </div>
       </div>
     )
   }

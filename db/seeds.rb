@@ -48,4 +48,10 @@ Hotel.all.each do |hotel|
     hotel_id: hotel.id,
     rate: rand(1..5)
   )
+  (1..10).each do |like|
+    Like.create!(
+      user_id: like,
+      hotel_id: hotel.id
+    )
+  end
 end

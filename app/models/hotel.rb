@@ -4,4 +4,5 @@ class Hotel < ApplicationRecord
   mount_base64_uploader :image, ImageUploader
   belongs_to :user
   has_many :reviews
+  has_many :likes
 end
