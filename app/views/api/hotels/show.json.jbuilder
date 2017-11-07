@@ -5,11 +5,13 @@ json.hotel do
   json.liked @like ? true : false
   json.like_id @like ? @like.id : -1
   json.reviews @hotel.reviews do |review|
+    json.id review.id
     json.user_id review.user.id
     json.user_name review.user.profile.name
     json.comment review.comment
     json.rate review.rate
     json.created_at review.created_at
+    json.updated_at review.updated_at
     json.image review.user.profile.avatar
   end
 end

@@ -14,11 +14,16 @@ export default class Comment extends React.Component {
       avatar = a.image
     a.image = avatar
     this.state = {
-      comment: a
+      comment: a,
+      liked: true,
     }
 
   }
-
+  likeClick(){
+    this.setState({
+      liked: !this.state.liked
+    })
+  }
   render() {
     return (
       <div className="row">
@@ -35,7 +40,7 @@ export default class Comment extends React.Component {
           <div className="panel panel-default">
             <div className="panel-heading">
               <strong>{this.state.comment.user_name}</strong> <span
-              className="text-muted">{moment(new Date(this.state.comment.created_at)).format('DD/MM/YYYY, h:mm:ss a')}</span>
+              className="text-muted">{moment(new Date(this.state.comment.updated_at || this.state.comment.created_at)).format('DD/MM/YYYY, h:mm:ss a')}</span>
               <p className="text-center">
                 <StarRatingComponent
                   name="rate1"
@@ -47,6 +52,8 @@ export default class Comment extends React.Component {
             </div>
             <div className="panel-body">
               <p className="comment-text">{this.state.comment.comment}</p>
+              {this.state.liked ? [(<div><button className="btn btn-primary" onClick={this.likeClick.bind(this)}>Like</button></div>),<span>9 users liked this</span>] :
+                ([<div><button className="btn btn-danger" onClick={this.likeClick.bind(this)}>UnLike</button></div>,<span> You and 9 users liked this</span>])}
             </div>
           </div>
         </div>

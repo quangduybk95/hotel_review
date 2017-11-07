@@ -1,12 +1,20 @@
 module Api
   class ReviewsController < BaseController
-    before_action :find_review , only: [:update]
+    before_action :find_review, only: [:update, :destroy]
 
     def update
     end
 
     def create
       @review = Review.create review_params
+    end
+
+    def update
+      @review.update_attributes review_params
+    end
+
+    def destroy
+      @review.destroy
     end
 
     private

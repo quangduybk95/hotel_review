@@ -59078,6 +59078,8 @@
 
 	var _comment2 = _interopRequireDefault(_comment);
 
+	var _reactModalDialog = __webpack_require__(829);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -59106,7 +59108,8 @@
 	      newReview_rate: 1,
 	      like: 1,
 	      liked: true,
-	      like_id: 1
+	      like_id: 1,
+	      comment_id: 0
 	    };
 	    return _this;
 	  }
@@ -59159,6 +59162,24 @@
 	      });
 	    }
 	  }, {
+	    key: 'editReview',
+	    value: function editReview(id) {
+	      this.handleClose();
+	      var formData = new FormData();
+	      formData.append('review[user_id]', JSON.parse(localStorage.grUser).user_id);
+	      formData.append('review[hotel_id]', this.props.params.hotel_id);
+	      formData.append('review[comment]', this.state.newReview_comment);
+	      formData.append('review[rate]', this.state.newReview_rate);
+	      var self = this;
+	      _axios2.default.patch(constant.HOTELS_API + this.props.params.hotel_id + '/reviews/' + id, formData).then(function (response) {
+	        if (response.data.status == 200) {
+	          location.reload();
+	        }
+	      }).catch(function (error) {
+	        self.showAlert(translate('app.error.error'));
+	      });
+	    }
+	  }, {
 	    key: 'likeBtn',
 	    value: function likeBtn() {
 	      var formData = new FormData();
@@ -59199,8 +59220,40 @@
 	  }, {
 	    key: 'onStarClick',
 	    value: function onStarClick(nextValue, prevValue, name) {
-
 	      this.setState({ newReview_rate: nextValue });
+	    }
+	  }, {
+	    key: 'handleClose',
+	    value: function handleClose() {
+	      this.setState({
+	        isShowingModal: false,
+	        newReview_comment: '',
+	        newReview_rate: 1,
+	        comment_id: 0
+	      });
+	    }
+	  }, {
+	    key: 'editClick',
+	    value: function editClick(comment) {
+	      this.setState({
+	        isShowingModal: true,
+	        newReview_comment: comment.comment,
+	        newReview_rate: comment.rate,
+	        comment_id: comment.id
+	      });
+	    }
+	  }, {
+	    key: 'deleteClick',
+	    value: function deleteClick(comment) {
+	      var formData = new FormData();
+	      var self = this;
+	      _axios2.default.delete(constant.HOTELS_API + this.props.params.hotel_id + '/reviews/' + comment.id, formData).then(function (response) {
+	        if (response.data.status == 200) {
+	          self.getData();
+	        }
+	      }).catch(function (error) {
+	        self.showAlert(translate('app.error.error'));
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -59280,21 +59333,27 @@
 	                    { className: 'review' },
 	                    this.state.reviews.length > 0 ? React.createElement(_comment2.default, { comment: this.state.reviews[0] }) : ""
 	                  ),
-	                  this.state.liked ? React.createElement(
+	                  this.state.liked ? [React.createElement(
 	                    'button',
 	                    { className: 'btn btn-danger', onClick: this.unlikeBtn.bind(this) },
 	                    'Unlike'
-	                  ) : React.createElement(
+	                  ), React.createElement(
+	                    'span',
+	                    null,
+	                    ' You and ',
+	                    this.state.like - 1,
+	                    ' users liked this'
+	                  )] : [React.createElement(
 	                    'button',
 	                    { className: 'btn btn-primary', onClick: this.likeBtn.bind(this) },
 	                    'Like'
-	                  ),
-	                  React.createElement(
+	                  ), React.createElement(
 	                    'span',
 	                    null,
+	                    ' ',
 	                    this.state.like,
-	                    ' users liked'
-	                  )
+	                    ' users liked this'
+	                  )]
 	                ),
 	                React.createElement(
 	                  'div',
@@ -59322,7 +59381,29 @@
 	                      this.state.reviews.filter(function (comment, index) {
 	                        return index > 0;
 	                      }).map(function (comment, index) {
-	                        return React.createElement(_comment2.default, { key: index, comment: comment });
+	                        if (comment.user_id == JSON.parse(localStorage.grUser).user_id) return React.createElement(
+	                          'div',
+	                          { style: { marginBottom: '10' } },
+	                          React.createElement(_comment2.default, { key: index, comment: comment }),
+	                          React.createElement(
+	                            'span',
+	                            null,
+	                            React.createElement(
+	                              'button',
+	                              { onClick: _this2.editClick.bind(_this2, comment), className: 'btn btn-primary' },
+	                              'edit'
+	                            )
+	                          ),
+	                          React.createElement(
+	                            'span',
+	                            null,
+	                            React.createElement(
+	                              'button',
+	                              { onClick: _this2.deleteClick.bind(_this2, comment), className: 'btn btn-danger' },
+	                              'delete'
+	                            )
+	                          )
+	                        );else return React.createElement(_comment2.default, { key: index, comment: comment });
 	                      })
 	                    ),
 	                    React.createElement(
@@ -59331,7 +59412,8 @@
 	                      React.createElement(
 	                        'div',
 	                        { className: 'col-md-6' },
-	                        React.createElement('input', { placeholder: 'write comment', type: 'text', className: 'form-control', value: this.state.newReview_comment,
+	                        React.createElement('input', { placeholder: 'write comment', type: 'text', className: 'form-control',
+	                          value: this.state.newReview_comment,
 	                          onChange: this.commentChange.bind(this) })
 	                      ),
 	                      React.createElement(
@@ -59352,6 +59434,42 @@
 	                      )
 	                    )
 	                  )
+	                )
+	              )
+	            )
+	          ),
+	          this.state.isShowingModal && React.createElement(
+	            _reactModalDialog.ModalContainer,
+	            { onClose: this.handleClose.bind(this) },
+	            React.createElement(
+	              _reactModalDialog.ModalDialog,
+	              { onClose: this.handleClose.bind(this) },
+	              React.createElement(
+	                'div',
+	                { className: 'row', style: { marginBottom: '30' } },
+	                React.createElement(
+	                  'div',
+	                  { className: 'col-md-5' },
+	                  React.createElement('input', { placeholder: 'write comment', type: 'text', className: 'form-control',
+	                    value: this.state.newReview_comment,
+	                    onChange: this.commentChange.bind(this) })
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'col-md-4' },
+	                  React.createElement(_reactStarRatingComponent2.default, {
+	                    name: 'rate2',
+	                    starCount: 5,
+	                    value: this.state.newReview_rate,
+	                    editing: true,
+	                    onStarClick: this.onStarClick.bind(this)
+	                  })
+	                ),
+	                React.createElement(
+	                  'button',
+	                  { onClick: this.editReview.bind(this, this.state.comment_id),
+	                    className: 'col-md-3 btn btn-primary' },
+	                  'Update'
 	                )
 	              )
 	            )
@@ -59637,13 +59755,21 @@
 	    } else avatar = a.image;
 	    a.image = avatar;
 	    _this.state = {
-	      comment: a
+	      comment: a,
+	      liked: true
 	    };
 
 	    return _this;
 	  }
 
 	  _createClass(Comment, [{
+	    key: 'likeClick',
+	    value: function likeClick() {
+	      this.setState({
+	        liked: !this.state.liked
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
@@ -59680,7 +59806,7 @@
 	                'span',
 	                {
 	                  className: 'text-muted' },
-	                (0, _moment2.default)(new Date(this.state.comment.created_at)).format('DD/MM/YYYY, h:mm:ss a')
+	                (0, _moment2.default)(new Date(this.state.comment.updated_at || this.state.comment.created_at)).format('DD/MM/YYYY, h:mm:ss a')
 	              ),
 	              React.createElement(
 	                'p',
@@ -59700,7 +59826,32 @@
 	                'p',
 	                { className: 'comment-text' },
 	                this.state.comment.comment
-	              )
+	              ),
+	              this.state.liked ? [React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                  'button',
+	                  { className: 'btn btn-primary', onClick: this.likeClick.bind(this) },
+	                  'Like'
+	                )
+	              ), React.createElement(
+	                'span',
+	                null,
+	                '9 users liked this'
+	              )] : [React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                  'button',
+	                  { className: 'btn btn-danger', onClick: this.likeClick.bind(this) },
+	                  'UnLike'
+	                )
+	              ), React.createElement(
+	                'span',
+	                null,
+	                ' You and 9 users liked this'
+	              )]
 	            )
 	          )
 	        )
