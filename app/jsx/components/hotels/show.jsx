@@ -227,7 +227,8 @@ export default class Hotel extends React.Component {
                   <legend>レビュー</legend>
                   <div className="review">
                     {this.state.reviews.length > 0 ?
-                      (<Comment comment={this.state.reviews[0]}/>) : ""}
+                      (<Comment
+                                comment={this.state.reviews[0]}/>) : ""}
                   </div>
                   {this.state.liked ? [<button className="btn btn-danger" onClick={this.unlikeBtn.bind(this)}>
                       ライクしない</button>, <span> あなたと{this.state.like - 1} ユーザーライクしました</span>] :
@@ -248,9 +249,9 @@ export default class Hotel extends React.Component {
                             <div style={{marginBottom: '10'}}>
                               <Comment key={index} comment={comment}/>
                               <span><button onClick={this.editClick.bind(this, comment)} className="btn btn-primary">
-                              edit</button></span>
+                              編集</button></span>
                               <span><button onClick={this.deleteClick.bind(this, comment)} className="btn btn-danger">
-                              delete</button></span></div>)
+                              削除</button></span></div>)
                         else
                           return (<Comment key={index} comment={comment}/>)
                       })}

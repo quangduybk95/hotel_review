@@ -59,7 +59,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var translate = __webpack_require__(272);
-	translate.registerTranslations('jp', __webpack_require__(855));
+	translate.registerTranslations('jp', __webpack_require__(856));
 
 	if (localStorage.locale == null) {
 	  localStorage.setItem('locale', 'jp');
@@ -22121,6 +22121,10 @@
 
 	var _new2 = _interopRequireDefault(_new);
 
+	var _posted = __webpack_require__(855);
+
+	var _posted2 = _interopRequireDefault(_posted);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Routes = function Routes(props) {
@@ -22133,7 +22137,8 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: '/my-profile', component: _user_update2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/users/:user_id', component: _user_info2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/show/:hotel_id', component: _show2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/create', component: _new2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/create', component: _new2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/posted/:user_id', component: _posted2.default })
 	  );
 	};
 	exports.default = Routes;
@@ -27823,7 +27828,7 @@
 	var CREATE_HOTEL_URL = exports.CREATE_HOTEL_URL = BASE_URL + '/create';
 	var HOTEL_URL = exports.HOTEL_URL = BASE_URL + '/show/';
 	var API_REVIEW_URL = exports.API_REVIEW_URL = BASE_URL + '/api/reviews/';
-	var USERS_IMPORT = exports.USERS_IMPORT = BASE_URL + '/users-import/';
+	var USERS_IMPORT = exports.USERS_IMPORT = BASE_URL + '/posted/';
 	var header = {};
 
 	if (localStorage.grUser != null) {
@@ -59378,7 +59383,8 @@
 	                  React.createElement(
 	                    'div',
 	                    { className: 'review' },
-	                    this.state.reviews.length > 0 ? React.createElement(_comment2.default, { comment: this.state.reviews[0] }) : ""
+	                    this.state.reviews.length > 0 ? React.createElement(_comment2.default, {
+	                      comment: this.state.reviews[0] }) : ""
 	                  ),
 	                  this.state.liked ? [React.createElement(
 	                    'button',
@@ -59438,7 +59444,7 @@
 	                            React.createElement(
 	                              'button',
 	                              { onClick: _this2.editClick.bind(_this2, comment), className: 'btn btn-primary' },
-	                              'edit'
+	                              '\u7DE8\u96C6'
 	                            )
 	                          ),
 	                          React.createElement(
@@ -59447,7 +59453,7 @@
 	                            React.createElement(
 	                              'button',
 	                              { onClick: _this2.deleteClick.bind(_this2, comment), className: 'btn btn-danger' },
-	                              'delete'
+	                              '\u524A\u9664'
 	                            )
 	                          )
 	                        );else return React.createElement(_comment2.default, { key: index, comment: comment });
@@ -59817,6 +59823,11 @@
 	      });
 	    }
 	  }, {
+	    key: 'goToPost',
+	    value: function goToPost(id) {
+	      window.open(constant.USERS_IMPORT + id);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
@@ -59845,7 +59856,7 @@
 	              { className: 'panel-heading' },
 	              React.createElement(
 	                'strong',
-	                null,
+	                { onClick: this.goToPost.bind(this, this.state.comment.user_id) },
 	                this.state.comment.user_name
 	              ),
 	              ' ',
@@ -94282,6 +94293,221 @@
 
 /***/ },
 /* 855 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(React) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _axios = __webpack_require__(246);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _constant = __webpack_require__(245);
+
+	var constant = _interopRequireWildcard(_constant);
+
+	var _reactAlert = __webpack_require__(288);
+
+	var _reactAlert2 = _interopRequireDefault(_reactAlert);
+
+	var _moment = __webpack_require__(366);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	__webpack_require__(497);
+
+	var _navbar = __webpack_require__(244);
+
+	var _navbar2 = _interopRequireDefault(_navbar);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var translate = __webpack_require__(272);
+
+	var Posted = function (_React$Component) {
+	  _inherits(Posted, _React$Component);
+
+	  function Posted(props) {
+	    _classCallCheck(this, Posted);
+
+	    var _this = _possibleConstructorReturn(this, (Posted.__proto__ || Object.getPrototypeOf(Posted)).call(this, props));
+
+	    _this.state = {
+	      hotels: [],
+	      email: ''
+	    };
+
+	    return _this;
+	  }
+
+	  _createClass(Posted, [{
+	    key: 'showAlert',
+	    value: function showAlert(text) {
+	      this.msg.show(text, {
+	        time: 3000,
+	        type: 'success',
+	        icon: React.createElement('img', { src: '/assets/warning.png' })
+	      });
+	    }
+	  }, {
+	    key: 'getHotels',
+	    value: function getHotels(url) {
+	      var _this2 = this;
+
+	      var self = this;
+	      _axios2.default.get(url).then(function (response) {
+	        response.data.hotels.map(function (hotel, index) {
+	          var image = { url: '' };
+	          if (hotel.image.url == null) image.url = constant.DEFAULT_IMAGE;else image = hotel.image;
+	          hotel.image = image;
+	          return hotel;
+	        });
+
+	        _this2.setState({
+	          hotels: response.data.hotels,
+	          email: response.data.user_email
+	        });
+	      }).catch(function (error) {
+	        self.showAlert(translate('app.error.error'));
+	      });
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.getHotels(constant.HOTELS_API + '?user_id=' + this.props.params.user_id);
+	    }
+	  }, {
+	    key: 'hotelClick',
+	    value: function hotelClick(index) {
+	      window.location = constant.HOTEL_URL + this.state.hotels[index].id;
+	    }
+	  }, {
+	    key: 'deleteHotel',
+	    value: function deleteHotel(id) {
+	      var self = this;
+	      _axios2.default.delete(constant.HOTELS_API + id).then(function (response) {
+	        if (response.status == 200) {
+	          self.showAlert("success");
+	        }
+	      }).catch(function (error) {
+	        self.showAlert(translate('app.error.error'));
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      return React.createElement(
+	        'div',
+	        { className: 'hotels-index' },
+	        React.createElement(_reactAlert2.default, _extends({ ref: function ref(a) {
+	            return _this3.msg = a;
+	          } }, constant.ALERT_OPTIONS)),
+	        React.createElement(_navbar2.default, { current_page: 5 }),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'col-md-10 col-md-offset-1' },
+	            React.createElement(
+	              'legend',
+	              { className: 'text-center' },
+	              React.createElement(
+	                'h1',
+	                null,
+	                this.state.email,
+	                '\u30E6\u30FC\u30B6\u30FC\u306E\u6295\u7A3F\u3057\u305F\u30EC\u30D3\u30E5\u30FC'
+	              )
+	            ),
+	            this.state.hotels.length > 0 ? this.state.hotels.map(function (hotel, index) {
+	              return React.createElement(
+	                'div',
+	                { key: index, className: 'col-md-3' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'hotel text-center pmd-card card-default pmd-z-depth' },
+	                  React.createElement('img', { onClick: _this3.hotelClick.bind(_this3, index), src: hotel.image.url || hotel.image,
+	                    width: '100%',
+	                    height: 200 }),
+	                  React.createElement(
+	                    'p',
+	                    null,
+	                    hotel.name,
+	                    hotel.user_id == JSON.parse(localStorage.grUser).user_id ? React.createElement(
+	                      'span',
+	                      null,
+	                      '\xA0',
+	                      React.createElement(
+	                        'button',
+	                        {
+	                          onClick: _this3.deleteHotel.bind(_this3, hotel.id),
+	                          className: 'btn btn-danger' },
+	                        '\u524A\u9664'
+	                      )
+	                    ) : ""
+	                  ),
+	                  React.createElement(
+	                    'p',
+	                    null,
+	                    hotel.cost,
+	                    '$/\u65E5'
+	                  ),
+	                  React.createElement(
+	                    'p',
+	                    null,
+	                    (0, _moment2.default)(new Date(hotel.created_at)).format('DD/MM/YYYY, h:mm:ss a')
+	                  )
+	                )
+	              );
+	            }) : React.createElement(
+	              'div',
+	              { className: 'text-center' },
+	              React.createElement(
+	                'h2',
+	                null,
+	                '\u4E00\u5EA6\u3082\u6295\u7A3F\u3057\u305F\u3053\u3068\u304C\u3042\u308A\u307E\u305B\u3093'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'footer-non-static navbar-inverse' },
+	          React.createElement(
+	            'p',
+	            { className: 'text-center' },
+	            'Coredump \u30C1\u30FC\u30E0'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Posted;
+	}(React.Component);
+
+	exports.default = Posted;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+/* 856 */
 /***/ function(module, exports) {
 
 	'use strict';

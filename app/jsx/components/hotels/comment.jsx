@@ -24,6 +24,11 @@ export default class Comment extends React.Component {
       liked: !this.state.liked
     })
   }
+
+  goToPost(id){
+    window.open(constant.USERS_IMPORT+ id)
+  }
+
   render() {
     return (
       <div className="row">
@@ -39,7 +44,7 @@ export default class Comment extends React.Component {
         <div className="col-md-8">
           <div className="panel panel-default">
             <div className="panel-heading">
-              <strong>{this.state.comment.user_name}</strong> <span
+              <strong onClick={this.goToPost.bind(this, this.state.comment.user_id)}>{this.state.comment.user_name}</strong> <span
               className="text-muted">{moment(new Date(this.state.comment.updated_at || this.state.comment.created_at)).format('DD/MM/YYYY, h:mm:ss a')}</span>
               <p className="text-center">
                 <StarRatingComponent

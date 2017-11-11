@@ -19,6 +19,8 @@ module Api
         search_by_name
       elsif params[:stars].present?
         search_by_stars
+      elsif params[:user_id].present?
+        @hotels = Hotel.where("user_id = ?", params[:user_id].to_i)
       else
         @hotels = Hotel.all.order(created_at: :desc)
       end

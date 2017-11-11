@@ -25,7 +25,7 @@ User.all.each do |user|
   )
 end
 
-(1..50).each do |hotel|
+(1..200).each do |hotel|
   Hotel.create(
     name: Faker::Company.name,
     address: Faker::Address.name,

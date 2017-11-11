@@ -7,6 +7,7 @@ import UserUpdate from './components/users/user_update'
 import UserInfo from './components/users/user_info'
 import Hotel from './components/hotels/show'
 import New_Hotel from './components/hotels/new'
+import Posted from './components/hotels/posted'
 const Routes = (props) => (
   <Router {...props}>
     <Route path='/' component={Home}/>
@@ -15,7 +16,8 @@ const Routes = (props) => (
     <Route path='/my-profile' component={UserUpdate}/>
     <Route path='/users/:user_id' component={UserInfo}/>
     <Route path='/show/:hotel_id' component={Hotel}/>
-      <Route path='/create' component={New_Hotel}/>
+    <Route path='/create' component={New_Hotel}/>
+    <Route path='/posted/:user_id' component={Posted}/>
 
   </Router>
 );
