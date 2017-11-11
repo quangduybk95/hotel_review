@@ -41,7 +41,7 @@ const BaseGoogleMap = withGoogleMap(props => (
       bounds={props.bounds}
       controlPosition={google.maps.ControlPosition.TOP_LEFT}
       onPlacesChanged={props.onPlacesChanged}
-      inputPlaceholder='Di chuyển đến vị trí của bạn muốn ...'
+      inputPlaceholder='ホテルの住所を入力してください'
       inputStyle={INPUT_STYLE}
     />
     {props.markers.map((marker, index) => (
@@ -67,6 +67,9 @@ const BaseGoogleMap = withGoogleMap(props => (
 export default class New_Hotel extends React.Component {
   constructor(props) {
     super(props);
+    if (localStorage.grUser == null)
+      window.location = constant.SIGN_IN_URL
+
     this.state = {
       bounds: null,
       distance: 4000,
@@ -106,7 +109,7 @@ export default class New_Hotel extends React.Component {
 
   showAlert(text) {
     this.msg.show(text, {
-      time: 3000,
+      time: 5000,
       type: 'success',
       icon: <img src='/assets/warning.png'/>
     });
@@ -139,37 +142,47 @@ export default class New_Hotel extends React.Component {
     this.getCurrentLocation();
   }
 
+  isEmpty(str) {
+    return (!str || 0 === str.length);
+  }
+
   submitEvent() {
-    let formData = new FormData();
-    formData.append('hotel[name]', this.state.hotel.name);
-    formData.append('hotel[address]', this.state.hotel.address);
-    formData.append('hotel[longitude]', this.state.markers[0].position.lng);
-    formData.append('hotel[latitude]', this.state.markers[0].position.lat);
-    formData.append('hotel[description]', this.state.hotel.description);
-    formData.append('hotel[user_id]', this.state.hotel.user_id);
-    formData.append('hotel[link]', this.state.hotel.link);
-    formData.append('hotel[phone]', this.state.hotel.phone);
-    formData.append('hotel[cost]', this.state.hotel.cost);
-    formData.append('hotel[stars]', this.state.hotel.stars);
-    formData.append('review[review]', this.state.review);
-    formData.append('review[rate]', this.state.rate);
+    if (this.isEmpty(this.state.hotel.name) || this.isEmpty(this.state.hotel.address) || this.isEmpty(this.state.hotel.description) || this.isEmpty(this.state.hotel.link)
+      || this.isEmpty(this.state.hotel.phone) || this.isEmpty(this.state.hotel.cost) || this.isEmpty(this.state.review)) {
+      this.showAlert("全部入力してください");
+    }
+    else {
+      let formData = new FormData();
+      formData.append('hotel[name]', this.state.hotel.name);
+      formData.append('hotel[address]', this.state.hotel.address);
+      formData.append('hotel[longitude]', this.state.markers[0].position.lng);
+      formData.append('hotel[latitude]', this.state.markers[0].position.lat);
+      formData.append('hotel[description]', this.state.hotel.description);
+      formData.append('hotel[user_id]', this.state.hotel.user_id);
+      formData.append('hotel[link]', this.state.hotel.link);
+      formData.append('hotel[phone]', this.state.hotel.phone);
+      formData.append('hotel[cost]', this.state.hotel.cost);
+      formData.append('hotel[stars]', this.state.hotel.stars);
+      formData.append('review[review]', this.state.review);
+      formData.append('review[rate]', this.state.rate);
 
-    if (this.state.image != null)
-      formData.append('hotel[image]', this.state.image);
+      if (this.state.image != null)
+        formData.append('hotel[image]', this.state.image);
 
-    axios.post(constant.HOTELS_API, formData)
-      .then(response => {
-        if (response.data.status == 200) {
-          this.showAlert(translate('app.error.success'));
-          window.location = constant.BASE_URL
-        }
-        else {
-        }
+      axios.post(constant.HOTELS_API, formData)
+        .then(response => {
+          if (response.data.status == 200) {
+            this.showAlert(translate('app.error.success'));
+            window.location = constant.HOTEL_URL + response.data.id
+          }
+          else {
+          }
 
-      })
-      .catch(error => {
-        this.showAlert(translate('app.error.error_validate'));
-      });
+        })
+        .catch(error => {
+          this.showAlert(translate('app.error.error_validate'));
+        });
+    }
   }
 
   handleMapClick(event) {
@@ -298,51 +311,51 @@ export default class New_Hotel extends React.Component {
             </div>
             <div className="row">
               <div className="form-group">
-                <label>Name</label>
+                <label>ホテルの名前</label>
                 <input value={this.state.hotel.name} onChange={this.handleChangeInfo.bind(this, 'name')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>Address</label>
+                <label>住所</label>
                 <input value={this.state.hotel.address} onChange={this.handleChangeInfo.bind(this, 'address')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>Stars</label>
+                <label>星</label>
                 <input value={this.state.hotel.stars} onChange={this.handleChangeInfo.bind(this, 'stars')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>Phone number</label>
+                <label>電話番号</label>
                 <input placeholder="0975700717" value={this.state.hotel.phone}
                        onChange={this.handleChangeInfo.bind(this, 'phone')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>Link</label>
+                <label>ホームページのリンク</label>
                 <input placeholder="http://google.com" value={this.state.hotel.link}
                        onChange={this.handleChangeInfo.bind(this, 'link')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>Cost</label>
+                <label>価格</label>
                 <input value={this.state.hotel.cost} onChange={this.handleChangeInfo.bind(this, 'cost')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>Description</label>
+                <label>記述</label>
                 <textarea value={this.state.hotel.description}
                           onChange={this.handleChangeInfo.bind(this, 'description')} rows="3" type="text"
                           className="form-control notrz"/>
               </div>
               <hr/>
               <div className="form-group">
-                <label>Review</label>
+                <label>レビュー</label>
                 <textarea value={this.state.review.review}
                           onChange={this.reviewChange.bind(this)} rows="3" type="text"
                           className="form-control notrz"/>
               </div>
-              <label>Rate</label>
+              <label>評価</label>
               <div className="hotel-stars">
                 <StarRatingComponent
                   name="rate1"

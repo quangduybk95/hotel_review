@@ -163,22 +163,23 @@ export default class Hotels extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-5">
-                <Select
-                  name="form-field-name"
-                  value={this.state.filter}
-                  options={options}
-                  onChange={this.logChange.bind(this)}
-                />
+              <div className="row">
+                <div className="col-md-5">
+                  <Select
+                    name="form-field-name"
+                    value={this.state.filter}
+                    options={options}
+                    onChange={this.logChange.bind(this)}
+                  />
+                </div>
               </div>
-            </div>
               <div className="row">
                 <div className="navbar-form">
                   <div className="form-group">
                     <input type="text" className="form-control" placeholder="Search" value={this.state.search_by_name}
                            onChange={this.searchChange.bind(this)}/>
                   </div>
-                  <button className="btn btn-primary" onClick={this.search.bind(this)}>Search</button>
+                  <button className="btn btn-primary" onClick={this.search.bind(this)}>検索</button>
                 </div>
               </div>
               <div className="row">
@@ -187,9 +188,10 @@ export default class Hotels extends React.Component {
                     <input type="number" min={1} max={7} className="form-control" placeholder="Search"
                            value={this.state.search_stars} onChange={this.searchStarsChange.bind(this)}/>
                   </div>
-                  <button className="btn btn-primary" onClick={this.searchByStars.bind(this)}>By Hotel Stars</button>
+                  <button className="btn btn-primary" onClick={this.searchByStars.bind(this)}>星で検索</button>
                 </div>
               </div>
+            </div>
             {this.state.hotels.map((hotel, index) => {
               return (
                 <div key={index} className="col-md-3" onClick={this.hotelClick.bind(this, index)}>

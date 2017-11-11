@@ -70,6 +70,7 @@ export default class Hotel extends React.Component {
           self.getData()
         }
         else {
+          location.reload()
         }
       })
       .catch(function (error) {
@@ -174,6 +175,10 @@ export default class Hotel extends React.Component {
       });
   }
 
+  linkClick(link) {
+    window.open(link);
+  }
+
   render() {
     return (
       <div>
@@ -188,7 +193,9 @@ export default class Hotel extends React.Component {
                   <h2>
                     <p>
                       ${this.state.info.cost}/日
-                      <button style={{marginLeft: '10'}} className="btn btn-primary">すぐ予約します</button>
+                      <button onClick={this.linkClick.bind(this, "http://google.com")} style={{marginLeft: '10'}}
+                              className="btn btn-primary">すぐ予約します
+                      </button>
                     </p>
                   </h2>
                   <div className="text-center hotel-stars">
@@ -205,10 +212,10 @@ export default class Hotel extends React.Component {
                     {this.state.reviews.length > 0 ?
                       (<Comment comment={this.state.reviews[0]}/>) : ""}
                   </div>
-                    {this.state.liked ? [<button className="btn btn-danger" onClick={this.unlikeBtn.bind(this)}>
-                        Unlike</button>, <span> You and {this.state.like - 1} users liked this</span>] :
-                      [<button className="btn btn-primary" onClick={this.likeBtn.bind(this)}>Like</button>,
-                        <span> {this.state.like} users liked this</span>]}
+                  {this.state.liked ? [<button className="btn btn-danger" onClick={this.unlikeBtn.bind(this)}>
+                      ライクしない</button>, <span> あなたと{this.state.like - 1} ユーザーライクしました</span>] :
+                    [<button className="btn btn-primary" onClick={this.likeBtn.bind(this)}>ライク</button>,
+                      <span> {this.state.like} ユーザーライクしました</span>]}
                 </div>
                 <div className="col-md-7 text-center img-hotel">
                   <img src={this.state.image.url || this.state.image} height={700} width='100%'/>
@@ -222,7 +229,7 @@ export default class Hotel extends React.Component {
                         if (comment.user_id == JSON.parse(localStorage.grUser).user_id)
                           return (
                             <div style={{marginBottom: '10'}}>
-                            <Comment key={index} comment={comment}/>
+                              <Comment key={index} comment={comment}/>
                               <span><button onClick={this.editClick.bind(this, comment)} className="btn btn-primary">
                               edit</button></span>
                               <span><button onClick={this.deleteClick.bind(this, comment)} className="btn btn-danger">
@@ -246,7 +253,7 @@ export default class Hotel extends React.Component {
                           onStarClick={this.onStarClick.bind(this)}
                         />
                       </div>
-                      <button onClick={this.createReview.bind(this)} className="col-md-3 btn btn-primary">Add</button>
+                      <button onClick={this.createReview.bind(this)} className="col-md-3 btn btn-primary">投稿</button>
                     </div>
 
                   </div>

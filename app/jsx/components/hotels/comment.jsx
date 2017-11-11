@@ -52,8 +52,8 @@ export default class Comment extends React.Component {
             </div>
             <div className="panel-body">
               <p className="comment-text">{this.state.comment.comment}</p>
-              {this.state.liked ? [(<div><button className="btn btn-primary" onClick={this.likeClick.bind(this)}>Like</button></div>),<span>9 users liked this</span>] :
-                ([<div><button className="btn btn-danger" onClick={this.likeClick.bind(this)}>UnLike</button></div>,<span> You and 9 users liked this</span>])}
+              {this.state.liked ? [(<div><button className="btn btn-primary" onClick={this.likeClick.bind(this)}>ライク</button></div>),<span>誰もライクしていません</span>] :
+                ([<div><button className="btn btn-danger" onClick={this.likeClick.bind(this)}>ライクしない</button></div>,<span> 一人ライクしました</span>])}
             </div>
           </div>
         </div>
