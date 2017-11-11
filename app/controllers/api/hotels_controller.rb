@@ -1,6 +1,6 @@
 module Api
   class HotelsController < BaseController
-    before_action :find_hotel, only: [:show, :update]
+    before_action :find_hotel, only: [:show, :update, :destroy]
 
     def show
 
@@ -29,6 +29,10 @@ module Api
       if @hotel.save
         @review = Review.create(user_id: params[:hotel][:user_id], comment: params[:review][:review], rate: params[:review][:rate], hotel_id: @hotel.id)
       end
+    end
+
+    def destroy
+      @hotel.destroy
     end
 
     private

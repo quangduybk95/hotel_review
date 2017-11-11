@@ -57,6 +57,19 @@ export default class Hotel extends React.Component {
       });
   }
 
+  deletePostClick() {
+    let self = this
+    axios.delete(constant.HOTELS_API + this.props.params.hotel_id)
+      .then((response) => {
+        if (response.status == 200) {
+          window.location = constant.BASE_URL
+        }
+      })
+      .catch(function (error) {
+        self.showAlert(translate('app.error.error'));
+      });
+  }
+
   createReview() {
     let formData = new FormData();
     formData.append('review[user_id]', JSON.parse(localStorage.grUser).user_id);
@@ -189,7 +202,11 @@ export default class Hotel extends React.Component {
             <div className="col-md-8 col-md-offset-2">
               <div className="pmd-card card-default pmd-z-depth hotel-card">
                 <div className="col-md-5 info-hotel text-center">
-                  <legend><h1>{this.state.info.name} Hotel</h1></legend>
+                  <legend><h1>{this.state.info.name} Hotel</h1>
+                    {this.state.info.user_id == JSON.parse(localStorage.grUser).user_id ? <span><button
+                        onClick={this.deletePostClick.bind(this)} className="btn btn-danger">削除</button></span>
+                      : ""}
+                  </legend>
                   <h2>
                     <p>
                       ${this.state.info.cost}/日

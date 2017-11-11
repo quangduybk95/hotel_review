@@ -27663,6 +27663,11 @@
 	      window.location = constant.SIGN_IN_URL;
 	    }
 	  }, {
+	    key: 'postedHotel',
+	    value: function postedHotel() {
+	      window.location = constant.USERS_IMPORT + this.state.user_id;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
@@ -27763,6 +27768,15 @@
 	                    translate('app.static_pages.setting')
 	                  )
 	                ),
+	                React.createElement(
+	                  'li',
+	                  { onClick: this.postedHotel.bind(this) },
+	                  React.createElement(
+	                    'a',
+	                    null,
+	                    '\u6295\u7A3F\u3057\u305F\u30EC\u30D3\u30E5\u30FC'
+	                  )
+	                ),
 	                React.createElement('li', { role: 'separator', className: 'divider' }),
 	                React.createElement(
 	                  'li',
@@ -27809,8 +27823,7 @@
 	var CREATE_HOTEL_URL = exports.CREATE_HOTEL_URL = BASE_URL + '/create';
 	var HOTEL_URL = exports.HOTEL_URL = BASE_URL + '/show/';
 	var API_REVIEW_URL = exports.API_REVIEW_URL = BASE_URL + '/api/reviews/';
-	var USERS_IMPORT = exports.USERS_IMPORT = BASE_URL + '/users-import';
-
+	var USERS_IMPORT = exports.USERS_IMPORT = BASE_URL + '/users-import/';
 	var header = {};
 
 	if (localStorage.grUser != null) {
@@ -59149,6 +59162,18 @@
 	      });
 	    }
 	  }, {
+	    key: 'deletePostClick',
+	    value: function deletePostClick() {
+	      var self = this;
+	      _axios2.default.delete(constant.HOTELS_API + this.props.params.hotel_id).then(function (response) {
+	        if (response.status == 200) {
+	          window.location = constant.BASE_URL;
+	        }
+	      }).catch(function (error) {
+	        self.showAlert(translate('app.error.error'));
+	      });
+	    }
+	  }, {
 	    key: 'createReview',
 	    value: function createReview() {
 	      var formData = new FormData();
@@ -59301,7 +59326,17 @@
 	                      null,
 	                      this.state.info.name,
 	                      ' Hotel'
-	                    )
+	                    ),
+	                    this.state.info.user_id == JSON.parse(localStorage.grUser).user_id ? React.createElement(
+	                      'span',
+	                      null,
+	                      React.createElement(
+	                        'button',
+	                        {
+	                          onClick: this.deletePostClick.bind(this), className: 'btn btn-danger' },
+	                        '\u524A\u9664'
+	                      )
+	                    ) : ""
 	                  ),
 	                  React.createElement(
 	                    'h2',

@@ -60,6 +60,10 @@ export default class Navbar extends React.Component {
     window.location = constant.SIGN_IN_URL
   }
 
+  postedHotel(){
+    window.location = constant.USERS_IMPORT+ this.state.user_id
+  }
+
   render() {
     return (
       <nav className="navbar navbar-default">
@@ -96,6 +100,9 @@ export default class Navbar extends React.Component {
                   </li>
                   <li onClick={this.settingBtnClick.bind(this)}>
                     <a>{translate('app.static_pages.setting')}</a>
+                  </li>
+                  <li onClick={this.postedHotel.bind(this)}>
+                    <a>投稿したレビュー</a>
                   </li>
                   <li role='separator' className='divider'></li>
                   <li onClick={this.signOut.bind(this)}>
