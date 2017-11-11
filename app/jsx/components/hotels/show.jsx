@@ -7,6 +7,47 @@ import StarRatingComponent from 'react-star-rating-component';
 import Comment from './comment'
 let translate = require('counterpart');
 import {ModalContainer, ModalDialog} from 'react-modal-dialog';
+import {
+  withGoogleMap, GoogleMap, Marker, InfoWindow, DirectionsRenderer
+}
+  from 'react-google-maps/lib';
+import SearchBox from 'react-google-maps/lib/places/SearchBox';
+
+const INPUT_STYLE = {
+  boxSizing: 'border-box',
+  MozBoxSizing: 'border-box',
+  border: '1px solid transparent',
+  width: '300px',
+  height: '32px',
+  marginTop: '27px',
+  padding: '0 12px',
+  borderRadius: '1px',
+  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
+  fontSize: '14px',
+  outline: 'none',
+  textOverflow: 'ellipses',
+};
+
+const BaseGoogleMap = withGoogleMap(props => (
+  <GoogleMap
+    ref={props.onMapMounted}
+    defaultZoom={15}
+    center={props.center}
+    onBoundsChanged={props.onBoundsChanged}
+    onClick={props.onMapClick.bind()}
+  >
+    {props.markers.map((marker, index) => (
+      <Marker
+        key={index}
+        position={marker.position}
+        icon={marker.icon}
+      >
+      </Marker>
+    ))}
+    {props.directions && <DirectionsRenderer directions={props.directions}/>}
+  </GoogleMap>
+));
+
 
 export default class Hotel extends React.Component {
   constructor(props) {
@@ -20,8 +61,43 @@ export default class Hotel extends React.Component {
       like: 1,
       liked: true,
       like_id: 1,
-      comment_id: 0
+      comment_id: 0,
+      bounds: null,
+      lat: 10.7810137,
+      lng: 106.6829672,
+      center: {
+        lat: 10.7810137,
+        lng: 106.6829672,
+      },
+      markers: [],
+      origin: new google.maps.LatLng(10.7810137, 106.6829672),
+      destination: new google.maps.LatLng(10.7810137, 106.6829672),
+      directions: null,
     }
+  }
+
+  handleMapClick(event) {
+    let position = {
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    }
+    this.state.origin = new google.maps.LatLng(position.lat, position.lng)
+    this.draw()
+  }
+
+  handleMapMounted(map) {
+    this._map = map;
+  }
+
+  handleBoundsChanged() {
+    this.setState({
+      bounds: this._map.getBounds(),
+      center: this._map.getCenter(),
+    });
+  }
+
+  handleSearchBoxMounted(searchBox) {
+    this._searchBox = searchBox;
   }
 
   showAlert(text) {
@@ -42,6 +118,14 @@ export default class Hotel extends React.Component {
         else
           avatar = response.data.hotel.info.image;
         response.data.hotel.info.image = avatar
+        let position = {
+          lat: response.data.hotel.info.latitude,
+          lng: response.data.hotel.info.longitude
+        }
+
+        let myMarker = {
+          position: position,
+        }
         self.setState({
           info: response.data.hotel.info,
           image: response.data.hotel.info.image,
@@ -50,11 +134,16 @@ export default class Hotel extends React.Component {
           liked: response.data.hotel.liked,
           like_id: response.data.hotel.like_id,
           newReview_comment: '',
+          markers: [myMarker],
+          center: position,
+          origin: new google.maps.LatLng(response.data.hotel.info.latitude, response.data.hotel.info.longitude),
+          destination: new google.maps.LatLng(response.data.hotel.info.latitude, response.data.hotel.info.longitude),
         })
       })
       .catch(function (error) {
         self.showAlert(translate('app.error.error'));
       });
+
   }
 
   deletePostClick() {
@@ -148,6 +237,25 @@ export default class Hotel extends React.Component {
     this.getData()
   }
 
+  draw() {
+    const DirectionsService = new google.maps.DirectionsService();
+    DirectionsService.route({
+      origin: this.state.origin,
+      destination: this.state.destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+    }, (result, status) => {
+      if (status === google.maps.DirectionsStatus.OK) {
+        this.setState({
+          directions: result,
+          markers: []
+        });
+      } else {
+        console.error(`error fetching directions ${result}`);
+      }
+    });
+  }
+
+
   commentChange(event) {
     this.setState({newReview_comment: event.target.value})
   }
@@ -228,7 +336,7 @@ export default class Hotel extends React.Component {
                   <div className="review">
                     {this.state.reviews.length > 0 ?
                       (<Comment
-                                comment={this.state.reviews[0]}/>) : ""}
+                        comment={this.state.reviews[0]}/>) : ""}
                   </div>
                   {this.state.liked ? [<button className="btn btn-danger" onClick={this.unlikeBtn.bind(this)}>
                       ライクしない</button>, <span> あなたと{this.state.like - 1} ユーザーライクしました</span>] :
@@ -238,7 +346,25 @@ export default class Hotel extends React.Component {
                 <div className="col-md-7 text-center img-hotel">
                   <img src={this.state.image.url || this.state.image} height={700} width='100%'/>
                 </div>
-
+                <div className="row">
+                  <div className="col-md-12">
+                    <BaseGoogleMap
+                      containerElement={
+                        <div style={{height: '400px'}}/>
+                      }
+                      mapElement={
+                        <div style={{height: '400px'}}/>
+                      }
+                      center={this.state.center}
+                      onMapMounted={this.handleMapMounted.bind(this)}
+                      onBoundsChanged={this.handleBoundsChanged.bind(this)}
+                      bounds={this.state.bounds}
+                      markers={this.state.markers}
+                      onMapClick={this.handleMapClick.bind(this)}
+                      directions={this.state.directions}
+                    />
+                  </div>
+                </div>
                 <div className="row">
                   <div className="col-md-offset-3 col-md-6 reviews">
                     <legend style={{marginTop: '20'}}><h1>他のレビュー一覧</h1></legend>
