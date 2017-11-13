@@ -27815,7 +27815,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var BASE_URL = exports.BASE_URL = 'http://localhost:3000';
+	var BASE_URL = exports.BASE_URL = 'https://hotel-review-quangduybk95-1.c9users.io';
 	var HOTELS_API = exports.HOTELS_API = BASE_URL + '/api/hotels/';
 	var API_USER_INFO_URL = exports.API_USER_INFO_URL = BASE_URL + '/api/users/';
 	var API_SIGN_UP_URL = exports.API_SIGN_UP_URL = BASE_URL + '/api/sign_up';
@@ -59499,7 +59499,7 @@
 	                    'div',
 	                    { className: 'review' },
 	                    this.state.reviews.length > 0 ? React.createElement(_comment2.default, {
-	                      comment: this.state.reviews[0] }) : ""
+	                      comment: this.state.reviews[0], show: 0 }) : ""
 	                  ),
 	                  this.state.liked ? [React.createElement(
 	                    'button',
@@ -59571,7 +59571,7 @@
 	                        if (comment.user_id == JSON.parse(localStorage.grUser).user_id) return React.createElement(
 	                          'div',
 	                          { style: { marginBottom: '10' } },
-	                          React.createElement(_comment2.default, { key: index, comment: comment }),
+	                          React.createElement(_comment2.default, { key: index, comment: comment, show: 1 }),
 	                          React.createElement(
 	                            'span',
 	                            null,
@@ -59962,6 +59962,35 @@
 	      window.open(constant.USERS_IMPORT + id);
 	    }
 	  }, {
+	    key: 'renderLike',
+	    value: function renderLike() {
+	      if (this.state.liked) return [React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'button',
+	          { className: 'btn btn-primary', onClick: this.likeClick.bind(this) },
+	          '\u30E9\u30A4\u30AF'
+	        )
+	      ), React.createElement(
+	        'span',
+	        null,
+	        '\u8AB0\u3082\u30E9\u30A4\u30AF\u3057\u3066\u3044\u307E\u305B\u3093'
+	      )];else return [React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'button',
+	          { className: 'btn btn-danger', onClick: this.likeClick.bind(this) },
+	          '\u30E9\u30A4\u30AF\u3057\u306A\u3044'
+	        )
+	      ), React.createElement(
+	        'span',
+	        null,
+	        ' \u4E00\u4EBA\u30E9\u30A4\u30AF\u3057\u307E\u3057\u305F'
+	      )];
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
@@ -60019,31 +60048,7 @@
 	                { className: 'comment-text' },
 	                this.state.comment.comment
 	              ),
-	              this.state.liked ? [React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                  'button',
-	                  { className: 'btn btn-primary', onClick: this.likeClick.bind(this) },
-	                  '\u30E9\u30A4\u30AF'
-	                )
-	              ), React.createElement(
-	                'span',
-	                null,
-	                '\u8AB0\u3082\u30E9\u30A4\u30AF\u3057\u3066\u3044\u307E\u305B\u3093'
-	              )] : [React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                  'button',
-	                  { className: 'btn btn-danger', onClick: this.likeClick.bind(this) },
-	                  '\u30E9\u30A4\u30AF\u3057\u306A\u3044'
-	                )
-	              ), React.createElement(
-	                'span',
-	                null,
-	                ' \u4E00\u4EBA\u30E9\u30A4\u30AF\u3057\u307E\u3057\u305F'
-	              )]
+	              this.props.show == 1 ? this.renderLike() : ""
 	            )
 	          )
 	        )

@@ -28,6 +28,14 @@ export default class Comment extends React.Component {
   goToPost(id){
     window.open(constant.USERS_IMPORT+ id)
   }
+  
+  renderLike(){
+    if (this.state.liked)
+      return [(<div><button className="btn btn-primary" onClick={this.likeClick.bind(this)}>ライク</button></div>),<span>誰もライクしていません</span>]
+    else 
+      return ([<div><button className="btn btn-danger" onClick={this.likeClick.bind(this)}>ライクしない</button></div>,<span> 一人ライクしました</span>])
+  }
+
 
   render() {
     return (
@@ -57,8 +65,7 @@ export default class Comment extends React.Component {
             </div>
             <div className="panel-body">
               <p className="comment-text">{this.state.comment.comment}</p>
-              {this.state.liked ? [(<div><button className="btn btn-primary" onClick={this.likeClick.bind(this)}>ライク</button></div>),<span>誰もライクしていません</span>] :
-                ([<div><button className="btn btn-danger" onClick={this.likeClick.bind(this)}>ライクしない</button></div>,<span> 一人ライクしました</span>])}
+              {this.props.show == 1 ? this.renderLike() : ""}
             </div>
           </div>
         </div>
