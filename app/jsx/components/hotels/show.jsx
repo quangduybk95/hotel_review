@@ -312,14 +312,14 @@ export default class Hotel extends React.Component {
                 <div className="col-md-5 info-hotel text-center">
                   <legend><h1>{this.state.info.name} Hotel</h1>
                     {this.state.info.user_id == JSON.parse(localStorage.grUser).user_id ? <span><button
-                        onClick={this.deletePostClick.bind(this)} className="btn btn-danger">削除</button></span>
+                        onClick={this.deletePostClick.bind(this)} className="btn btn-danger">{translate('app.show.delete')}</button></span>
                       : ""}
                   </legend>
                   <h2>
                     <p>
-                      ${this.state.info.cost}/日
+                      ${this.state.info.cost}/{translate('app.show.day')}
                       <button onClick={this.linkClick.bind(this, "http://google.com")} style={{marginLeft: '10'}}
-                              className="btn btn-primary">すぐ予約します
+                              className="btn btn-primary">{translate('app.show.get')}
                       </button>
                     </p>
                   </h2>
@@ -332,16 +332,16 @@ export default class Hotel extends React.Component {
                     />
                   </div>
                   <p>{this.state.info.description}</p>
-                  <legend>レビュー</legend>
+                  <legend>{translate('app.show.review')}</legend>
                   <div className="review">
                     {this.state.reviews.length > 0 ?
                       (<Comment
                         comment={this.state.reviews[0]} show={0}/>) : ""}
                   </div>
                   {this.state.liked ? [<button className="btn btn-danger" onClick={this.unlikeBtn.bind(this)}>
-                      ライクしない</button>, <span> あなたと{this.state.like - 1} ユーザーライクしました</span>] :
-                    [<button className="btn btn-primary" onClick={this.likeBtn.bind(this)}>ライク</button>,
-                      <span> {this.state.like} ユーザーライクしました</span>]}
+                      {translate('app.show.unlike')}</button>, <span> {translate('app.show.you')}{this.state.like - 1} {translate('app.show.liked')}</span>] :
+                    [<button className="btn btn-primary" onClick={this.likeBtn.bind(this)}>{translate('app.show.like')}</button>,
+                      <span> {this.state.like} {translate('app.show.liked')}</span>]}
                 </div>
                 <div className="col-md-7 text-center img-hotel">
                   <img src={this.state.image.url || this.state.image} height={700} width='100%'/>
@@ -367,7 +367,7 @@ export default class Hotel extends React.Component {
                 </div>
                 <div className="row">
                   <div className="col-md-offset-3 col-md-6 reviews">
-                    <legend style={{marginTop: '20'}}><h1>他のレビュー一覧</h1></legend>
+                    <legend style={{marginTop: '20'}}><h1>{translate('app.show.review_list')}</h1></legend>
                     <div>
                       {this.state.reviews.filter((comment, index) => (index > 0)).map((comment, index) => {
                         if (comment.user_id == JSON.parse(localStorage.grUser).user_id)
@@ -375,16 +375,16 @@ export default class Hotel extends React.Component {
                             <div style={{marginBottom: '10'}}>
                               <Comment key={index} comment={comment} show={1}/>
                               <span><button onClick={this.editClick.bind(this, comment)} className="btn btn-primary">
-                              編集</button></span>
+                              {translate('app.show.edit')}</button></span>
                               <span><button onClick={this.deleteClick.bind(this, comment)} className="btn btn-danger">
-                              削除</button></span></div>)
+                              {translate('app.show.delete')}</button></span></div>)
                         else
                           return (<Comment key={index} comment={comment}/>)
                       })}
                     </div>
                     <div className="row" style={{marginBottom: '30'}}>
                       <div className="col-md-6">
-                        <input placeholder="write comment" type="text" className="form-control"
+                        <input placeholder={translate('app.show.write_comment')} type="text" className="form-control"
                                value={this.state.newReview_comment}
                                onChange={this.commentChange.bind(this)}/>
                       </div>
@@ -397,7 +397,7 @@ export default class Hotel extends React.Component {
                           onStarClick={this.onStarClick.bind(this)}
                         />
                       </div>
-                      <button onClick={this.createReview.bind(this)} className="col-md-3 btn btn-primary">投稿</button>
+                      <button onClick={this.createReview.bind(this)} className="col-md-3 btn btn-primary">{translate('app.show.create')}</button>
                     </div>
 
                   </div>
@@ -412,7 +412,7 @@ export default class Hotel extends React.Component {
               <ModalDialog onClose={this.handleClose.bind(this)}>
                 <div className="row" style={{marginBottom: '30'}}>
                   <div className="col-md-5">
-                    <input placeholder="write comment" type="text" className="form-control"
+                    <input placeholder={translate('app.show.write_comment')} type="text" className="form-control"
                            value={this.state.newReview_comment}
                            onChange={this.commentChange.bind(this)}/>
                   </div>
@@ -426,7 +426,7 @@ export default class Hotel extends React.Component {
                     />
                   </div>
                   <button onClick={this.editReview.bind(this, this.state.comment_id)}
-                          className="col-md-3 btn btn-primary">Update
+                          className="col-md-3 btn btn-primary">{translate('app.show.update')}
                   </button>
                 </div>
               </ModalDialog>

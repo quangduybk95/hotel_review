@@ -41,7 +41,7 @@ const BaseGoogleMap = withGoogleMap(props => (
       bounds={props.bounds}
       controlPosition={google.maps.ControlPosition.TOP_LEFT}
       onPlacesChanged={props.onPlacesChanged}
-      inputPlaceholder='ホテルの住所を入力してください'
+      inputPlaceholder={translate('app.new.searchbox')}
       inputStyle={INPUT_STYLE}
     />
     {props.markers.map((marker, index) => (
@@ -282,7 +282,7 @@ export default class New_Hotel extends React.Component {
         <NavBar current_page={2}/>
         <section className='locations row'>
           <div className="col-md-offset-1 col-md-5">
-            <legend>ホテルの情報</legend>
+            <legend>{translate('app.new.info')}</legend>
             <div className="row">
               <div data-provides='fileinput'
                    className='fileinput fileinput-new col-md-8 upload-image'>
@@ -311,51 +311,51 @@ export default class New_Hotel extends React.Component {
             </div>
             <div className="row">
               <div className="form-group">
-                <label>ホテルの名前</label>
+                <label>{translate('app.new.name')}</label>
                 <input value={this.state.hotel.name} onChange={this.handleChangeInfo.bind(this, 'name')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>住所</label>
+                <label>{translate('app.new.address')}</label>
                 <input value={this.state.hotel.address} onChange={this.handleChangeInfo.bind(this, 'address')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>星</label>
+                <label>{translate('app.new.stars')}</label>
                 <input value={this.state.hotel.stars} onChange={this.handleChangeInfo.bind(this, 'stars')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>電話番号</label>
+                <label>{translate('app.new.phone')}</label>
                 <input placeholder="0975700717" value={this.state.hotel.phone}
                        onChange={this.handleChangeInfo.bind(this, 'phone')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>ホームページのリンク</label>
+                <label>{translate('app.new.link')}</label>
                 <input placeholder="http://google.com" value={this.state.hotel.link}
                        onChange={this.handleChangeInfo.bind(this, 'link')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>価格</label>
+                <label>{translate('app.new.cost')}</label>
                 <input value={this.state.hotel.cost} onChange={this.handleChangeInfo.bind(this, 'cost')}
                        type="text" className="form-control"/>
               </div>
               <div className="form-group">
-                <label>記述</label>
+                <label>{translate('app.new.description')}</label>
                 <textarea value={this.state.hotel.description}
                           onChange={this.handleChangeInfo.bind(this, 'description')} rows="3" type="text"
                           className="form-control notrz"/>
               </div>
               <hr/>
               <div className="form-group">
-                <label>レビュー</label>
+                <label>{translate('app.new.review')}</label>
                 <textarea value={this.state.review.review}
                           onChange={this.reviewChange.bind(this)} rows="3" type="text"
                           className="form-control notrz"/>
               </div>
-              <label>評価</label>
+              <label>{translate('app.new.rate')}</label>
               <div className="hotel-stars">
                 <StarRatingComponent
                   name="rate1"
@@ -365,7 +365,7 @@ export default class New_Hotel extends React.Component {
                   onStarClick={this.onStarClick.bind(this)}
                 />
               </div>
-              <button className="btn btn-primary btn-create" onClick={this.submitEvent.bind(this)}>Create</button>
+              <button className="btn btn-primary btn-create" onClick={this.submitEvent.bind(this)}>{translate('app.new.create')}</button>
             </div>
           </div>
           <div className="col-md-5">

@@ -66,5 +66,35 @@ module.exports = {
       got_account: 'Had a account?',
       login: 'Login'
     },
+    new: {
+      info: 'Hotel Information',
+      name: 'Name',
+      phone: 'Phone number',
+      address: 'Address',
+      rate: 'Rate',
+      cost: 'Cost',
+      stars: 'Star',
+      link: 'Link',
+      description: 'Description',
+      review: 'Review',
+      create: 'Create',
+      searchbox: 'Hotel address'
+    },
+    show: {
+      delete: 'Delete',
+      get: 'Book now',
+      like: 'Like',
+      you: 'You and ',
+      liked: 'people liked',
+      edit: 'Edit',
+      create: 'Create',
+      update: 'Update',
+      review: 'Review',
+      unlike: 'Unlike',
+      review_list: 'List review',
+      write_comment: 'Write comment',
+      day: 'day'
+    }
+
   }
 };

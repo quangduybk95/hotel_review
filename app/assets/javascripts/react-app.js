@@ -59529,7 +59529,7 @@
 	                        'button',
 	                        {
 	                          onClick: this.deletePostClick.bind(this), className: 'btn btn-danger' },
-	                        '\u524A\u9664'
+	                        translate('app.show.delete')
 	                      )
 	                    ) : ""
 	                  ),
@@ -59541,12 +59541,13 @@
 	                      null,
 	                      '$',
 	                      this.state.info.cost,
-	                      '/\u65E5',
+	                      '/',
+	                      translate('app.show.day'),
 	                      React.createElement(
 	                        'button',
 	                        { onClick: this.linkClick.bind(this, "http://google.com"), style: { marginLeft: '10' },
 	                          className: 'btn btn-primary' },
-	                        '\u3059\u3050\u4E88\u7D04\u3057\u307E\u3059'
+	                        translate('app.show.get')
 	                      )
 	                    )
 	                  ),
@@ -59568,7 +59569,7 @@
 	                  React.createElement(
 	                    'legend',
 	                    null,
-	                    '\u30EC\u30D3\u30E5\u30FC'
+	                    translate('app.show.review')
 	                  ),
 	                  React.createElement(
 	                    'div',
@@ -59579,23 +59580,26 @@
 	                  this.state.liked ? [React.createElement(
 	                    'button',
 	                    { className: 'btn btn-danger', onClick: this.unlikeBtn.bind(this) },
-	                    '\u30E9\u30A4\u30AF\u3057\u306A\u3044'
+	                    translate('app.show.unlike')
 	                  ), React.createElement(
 	                    'span',
 	                    null,
-	                    ' \u3042\u306A\u305F\u3068',
+	                    ' ',
+	                    translate('app.show.you'),
 	                    this.state.like - 1,
-	                    ' \u30E6\u30FC\u30B6\u30FC\u30E9\u30A4\u30AF\u3057\u307E\u3057\u305F'
+	                    ' ',
+	                    translate('app.show.liked')
 	                  )] : [React.createElement(
 	                    'button',
 	                    { className: 'btn btn-primary', onClick: this.likeBtn.bind(this) },
-	                    '\u30E9\u30A4\u30AF'
+	                    translate('app.show.like')
 	                  ), React.createElement(
 	                    'span',
 	                    null,
 	                    ' ',
 	                    this.state.like,
-	                    ' \u30E6\u30FC\u30B6\u30FC\u30E9\u30A4\u30AF\u3057\u307E\u3057\u305F'
+	                    ' ',
+	                    translate('app.show.liked')
 	                  )]
 	                ),
 	                React.createElement(
@@ -59634,7 +59638,7 @@
 	                      React.createElement(
 	                        'h1',
 	                        null,
-	                        '\u4ED6\u306E\u30EC\u30D3\u30E5\u30FC\u4E00\u89A7'
+	                        translate('app.show.review_list')
 	                      )
 	                    ),
 	                    React.createElement(
@@ -59653,7 +59657,7 @@
 	                            React.createElement(
 	                              'button',
 	                              { onClick: _this3.editClick.bind(_this3, comment), className: 'btn btn-primary' },
-	                              '\u7DE8\u96C6'
+	                              translate('app.show.edit')
 	                            )
 	                          ),
 	                          React.createElement(
@@ -59662,7 +59666,7 @@
 	                            React.createElement(
 	                              'button',
 	                              { onClick: _this3.deleteClick.bind(_this3, comment), className: 'btn btn-danger' },
-	                              '\u524A\u9664'
+	                              translate('app.show.delete')
 	                            )
 	                          )
 	                        );else return React.createElement(_comment2.default, { key: index, comment: comment });
@@ -59674,7 +59678,7 @@
 	                      React.createElement(
 	                        'div',
 	                        { className: 'col-md-6' },
-	                        React.createElement('input', { placeholder: 'write comment', type: 'text', className: 'form-control',
+	                        React.createElement('input', { placeholder: translate('app.show.write_comment'), type: 'text', className: 'form-control',
 	                          value: this.state.newReview_comment,
 	                          onChange: this.commentChange.bind(this) })
 	                      ),
@@ -59692,7 +59696,7 @@
 	                      React.createElement(
 	                        'button',
 	                        { onClick: this.createReview.bind(this), className: 'col-md-3 btn btn-primary' },
-	                        '\u6295\u7A3F'
+	                        translate('app.show.create')
 	                      )
 	                    )
 	                  )
@@ -59712,7 +59716,7 @@
 	                React.createElement(
 	                  'div',
 	                  { className: 'col-md-5' },
-	                  React.createElement('input', { placeholder: 'write comment', type: 'text', className: 'form-control',
+	                  React.createElement('input', { placeholder: translate('app.show.write_comment'), type: 'text', className: 'form-control',
 	                    value: this.state.newReview_comment,
 	                    onChange: this.commentChange.bind(this) })
 	                ),
@@ -59731,7 +59735,7 @@
 	                  'button',
 	                  { onClick: this.editReview.bind(this, this.state.comment_id),
 	                    className: 'col-md-3 btn btn-primary' },
-	                  'Update'
+	                  translate('app.show.update')
 	                )
 	              )
 	            )
@@ -94010,7 +94014,7 @@
 	      bounds: props.bounds,
 	      controlPosition: google.maps.ControlPosition.TOP_LEFT,
 	      onPlacesChanged: props.onPlacesChanged,
-	      inputPlaceholder: '\u30DB\u30C6\u30EB\u306E\u4F4F\u6240\u3092\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044',
+	      inputPlaceholder: translate('app.new.searchbox'),
 	      inputStyle: INPUT_STYLE
 	    }),
 	    props.markers.map(function (marker, index) {
@@ -94292,7 +94296,7 @@
 	            React.createElement(
 	              'legend',
 	              null,
-	              '\u30DB\u30C6\u30EB\u306E\u60C5\u5831'
+	              translate('app.new.info')
 	            ),
 	            React.createElement(
 	              'div',
@@ -94359,7 +94363,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u30DB\u30C6\u30EB\u306E\u540D\u524D'
+	                  translate('app.new.name')
 	                ),
 	                React.createElement('input', { value: this.state.hotel.name, onChange: this.handleChangeInfo.bind(this, 'name'),
 	                  type: 'text', className: 'form-control' })
@@ -94370,7 +94374,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u4F4F\u6240'
+	                  translate('app.new.address')
 	                ),
 	                React.createElement('input', { value: this.state.hotel.address, onChange: this.handleChangeInfo.bind(this, 'address'),
 	                  type: 'text', className: 'form-control' })
@@ -94381,7 +94385,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u661F'
+	                  translate('app.new.stars')
 	                ),
 	                React.createElement('input', { value: this.state.hotel.stars, onChange: this.handleChangeInfo.bind(this, 'stars'),
 	                  type: 'text', className: 'form-control' })
@@ -94392,7 +94396,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u96FB\u8A71\u756A\u53F7'
+	                  translate('app.new.phone')
 	                ),
 	                React.createElement('input', { placeholder: '0975700717', value: this.state.hotel.phone,
 	                  onChange: this.handleChangeInfo.bind(this, 'phone'),
@@ -94404,7 +94408,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u30DB\u30FC\u30E0\u30DA\u30FC\u30B8\u306E\u30EA\u30F3\u30AF'
+	                  translate('app.new.link')
 	                ),
 	                React.createElement('input', { placeholder: 'http://google.com', value: this.state.hotel.link,
 	                  onChange: this.handleChangeInfo.bind(this, 'link'),
@@ -94416,7 +94420,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u4FA1\u683C'
+	                  translate('app.new.cost')
 	                ),
 	                React.createElement('input', { value: this.state.hotel.cost, onChange: this.handleChangeInfo.bind(this, 'cost'),
 	                  type: 'text', className: 'form-control' })
@@ -94427,7 +94431,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u8A18\u8FF0'
+	                  translate('app.new.description')
 	                ),
 	                React.createElement('textarea', { value: this.state.hotel.description,
 	                  onChange: this.handleChangeInfo.bind(this, 'description'), rows: '3', type: 'text',
@@ -94440,7 +94444,7 @@
 	                React.createElement(
 	                  'label',
 	                  null,
-	                  '\u30EC\u30D3\u30E5\u30FC'
+	                  translate('app.new.review')
 	                ),
 	                React.createElement('textarea', { value: this.state.review.review,
 	                  onChange: this.reviewChange.bind(this), rows: '3', type: 'text',
@@ -94449,7 +94453,7 @@
 	              React.createElement(
 	                'label',
 	                null,
-	                '\u8A55\u4FA1'
+	                translate('app.new.rate')
 	              ),
 	              React.createElement(
 	                'div',
@@ -94465,7 +94469,7 @@
 	              React.createElement(
 	                'button',
 	                { className: 'btn btn-primary btn-create', onClick: this.submitEvent.bind(this) },
-	                'Create'
+	                translate('app.new.create')
 	              )
 	            )
 	          ),
@@ -94796,6 +94800,35 @@
 	      submit: 'サインアップ',
 	      got_account: 'すでにアカウントをお持ちですか？',
 	      login: 'ログイン'
+	    },
+	    new: {
+	      info: 'ホテルのインフォメーション',
+	      name: '名前',
+	      phone: '電話番号',
+	      address: '住所',
+	      rate: '評価',
+	      cost: '価格',
+	      stars: '星',
+	      link: 'リンク',
+	      description: '記述',
+	      review: 'レビュー',
+	      create: '投稿',
+	      searchbox: 'ホテルの住所を入力してください'
+	    },
+	    show: {
+	      delete: '削除',
+	      get: 'すぐ予約する',
+	      like: 'ライクする',
+	      you: 'あなたと',
+	      liked: '人がライクした',
+	      edit: '編集',
+	      create: '投稿',
+	      update: 'アップデート',
+	      review: 'レビュー',
+	      unlike: 'ライクしない',
+	      review_list: 'レビュー一覧',
+	      write_comment: 'コメントを入力してください',
+	      day: '日'
 	    }
 	  }
 	};
@@ -94873,7 +94906,37 @@
 	      submit: 'Signup',
 	      got_account: 'Had a account?',
 	      login: 'Login'
+	    },
+	    new: {
+	      info: 'Hotel Information',
+	      name: 'Name',
+	      phone: 'Phone number',
+	      address: 'Address',
+	      rate: 'Rate',
+	      cost: 'Cost',
+	      stars: 'Star',
+	      link: 'Link',
+	      description: 'Description',
+	      review: 'Review',
+	      create: 'Create',
+	      searchbox: 'Hotel address'
+	    },
+	    show: {
+	      delete: 'Delete',
+	      get: 'Book now',
+	      like: 'Like',
+	      you: 'You and ',
+	      liked: 'people liked',
+	      edit: 'Edit',
+	      create: 'Create',
+	      update: 'Update',
+	      review: 'Review',
+	      unlike: 'Unlike',
+	      review_list: 'List review',
+	      write_comment: 'Write comment',
+	      day: 'day'
 	    }
+
 	  }
 	};
 
@@ -94949,6 +95012,35 @@
 	      submit: 'Đăng ký',
 	      got_account: 'Đã có tài khoản?',
 	      login: 'Đăng nhập'
+	    },
+	    new: {
+	      info: 'Thông tin khách sạn',
+	      name: 'Tên khách sạn',
+	      phone: 'Số điện thoại',
+	      address: 'Địa chỉ',
+	      rate: 'Đánh giá',
+	      cost: 'Giá',
+	      stars: 'Số sao',
+	      link: 'Link',
+	      description: 'Miêu tả',
+	      review: 'Review',
+	      create: 'Đăng bài',
+	      searchbox: 'Nhập địa chỉ khách sạn'
+	    },
+	    show: {
+	      delete: 'Xoá',
+	      get: 'Đặt ngay',
+	      like: 'Thích',
+	      you: 'Bạn và ',
+	      liked: 'người đã thích',
+	      edit: 'Sửa',
+	      create: 'Đăng',
+	      update: 'Cập nhật',
+	      review: 'Review',
+	      unlike: 'Bỏ thích',
+	      review_list: 'Danh sách review',
+	      write_comment: 'Viết bình luận',
+	      day: 'Ngày'
 	    }
 
 	  }

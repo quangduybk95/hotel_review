@@ -66,5 +66,34 @@ module.exports = {
       got_account: 'すでにアカウントをお持ちですか？',
       login: 'ログイン'
     },
+    new: {
+      info: 'ホテルのインフォメーション',
+      name: '名前',
+      phone: '電話番号',
+      address: '住所',
+      rate: '評価',
+      cost: '価格',
+      stars: '星',
+      link: 'リンク',
+      description: '記述',
+      review: 'レビュー',
+      create: '投稿',
+      searchbox: 'ホテルの住所を入力してください'
+    },
+    show: {
+      delete: '削除',
+      get: 'すぐ予約する',
+      like: 'ライクする',
+      you: 'あなたと',
+      liked: '人がライクした',
+      edit: '編集',
+      create: '投稿',
+      update: 'アップデート',
+      review: 'レビュー',
+      unlike: 'ライクしない',
+      review_list: 'レビュー一覧',
+      write_comment: 'コメントを入力してください',
+      day: '日'
+    }
   }
 };

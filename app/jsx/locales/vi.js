@@ -65,6 +65,35 @@ module.exports = {
       got_account: 'Đã có tài khoản?',
       login: 'Đăng nhập'
     },
+    new: {
+      info: 'Thông tin khách sạn',
+      name: 'Tên khách sạn',
+      phone: 'Số điện thoại',
+      address: 'Địa chỉ',
+      rate: 'Đánh giá',
+      cost: 'Giá',
+      stars: 'Số sao',
+      link: 'Link',
+      description: 'Miêu tả',
+      review: 'Review',
+      create: 'Đăng bài',
+      searchbox: 'Nhập địa chỉ khách sạn'
+    },
+    show: {
+      delete: 'Xoá',
+      get: 'Đặt ngay',
+      like: 'Thích',
+      you: 'Bạn và ',
+      liked: 'người đã thích',
+      edit: 'Sửa',
+      create: 'Đăng',
+      update: 'Cập nhật',
+      review: 'Review',
+      unlike: 'Bỏ thích',
+      review_list: 'Danh sách review',
+      write_comment: 'Viết bình luận',
+      day: 'Ngày'
+    }
 
   }
 };
