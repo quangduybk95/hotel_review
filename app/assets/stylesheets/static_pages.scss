@@ -27,6 +27,7 @@ body {
 }
 
 .footer-static{
+  color: black;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -36,7 +37,7 @@ body {
 }
 
 .footer-non-static{
-  color: white;
+  color: black;
   position: absolute;
   width: 100%;
   margin-right: 0 !important;

@@ -389,7 +389,7 @@ export default class New_Hotel extends React.Component {
           </div>
         </section>
         <div className="footer navbar-default">
-          <p className="text-center">SIG GROUP</p>
+          <p className="text-center">Coredump {translate('app.static_pages.team')}</p>
         </div>
       </section>
     );

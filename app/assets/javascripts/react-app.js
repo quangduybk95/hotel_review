@@ -59,6 +59,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var translate = __webpack_require__(272);
+	translate.registerTranslations('en', __webpack_require__(857));
+	translate.registerTranslations('vi', __webpack_require__(858));
 	translate.registerTranslations('jp', __webpack_require__(856));
 
 	if (localStorage.locale == null) {
@@ -27529,6 +27531,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var translate = __webpack_require__(272);
+
 	var Home = function (_React$Component) {
 	  _inherits(Home, _React$Component);
 
@@ -27552,7 +27556,8 @@
 	          React.createElement(
 	            'p',
 	            { className: 'text-center' },
-	            'Coredump \u30C1\u30FC\u30E0'
+	            'Coredump ',
+	            translate('app.static_pages.team')
 	          )
 	        )
 	      );
@@ -27607,7 +27612,7 @@
 
 	    _this.state = {
 	      email: '', is_signed: false,
-	      user_id: ''
+	      user_id: '', locale: ''
 	    };
 
 	    return _this;
@@ -27616,15 +27621,33 @@
 	  _createClass(Navbar, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
+	      var locale = localStorage.locale;
+	      var locale_name = translate('app.static_pages.language.english');
+
+	      switch (locale) {
+	        case 'en':
+	          locale_name = translate('app.static_pages.language.english');
+	          break;
+	        case 'vi':
+	          locale_name = translate('app.static_pages.language.vietnamese');
+	          break;
+	        case 'jp':
+	          locale_name = translate('app.static_pages.language.japanese');
+	          break;
+	        default:
+	          break;
+	      }
+
 	      if (localStorage.grUser != null) {
 	        var gr_user = JSON.parse(localStorage.grUser);
 	        this.setState({
 	          email: gr_user.email,
 	          is_signed: true,
-	          user_id: gr_user.user_id
+	          user_id: gr_user.user_id,
+	          locale: locale_name
 	        });
 	      } else {
-	        this.setState({ is_signed: false });
+	        this.setState({ is_signed: false, locale: locale_name });
 	      }
 	    }
 	  }, {
@@ -27671,6 +27694,13 @@
 	    key: 'postedHotel',
 	    value: function postedHotel() {
 	      window.location = constant.USERS_IMPORT + this.state.user_id;
+	    }
+	  }, {
+	    key: 'changeLanguage',
+	    value: function changeLanguage(locale) {
+	      localStorage.setItem('locale', locale);
+	      translate.setLocale(locale);
+	      window.location.reload();
 	    }
 	  }, {
 	    key: 'render',
@@ -27731,6 +27761,48 @@
 	          React.createElement(
 	            'ul',
 	            { className: 'nav navbar-nav navbar-right' },
+	            React.createElement(
+	              'li',
+	              { className: 'dropdown' },
+	              React.createElement(
+	                'a',
+	                { className: 'dropdown-toggle', 'data-toggle': 'dropdown',
+	                  role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
+	                this.state.locale,
+	                React.createElement('span', { className: 'caret' })
+	              ),
+	              React.createElement(
+	                'ul',
+	                { className: 'dropdown-menu' },
+	                React.createElement(
+	                  'li',
+	                  { onClick: this.changeLanguage.bind(this, 'vi') },
+	                  React.createElement(
+	                    'a',
+	                    null,
+	                    translate('app.static_pages.language.vietnamese')
+	                  )
+	                ),
+	                React.createElement(
+	                  'li',
+	                  { onClick: this.changeLanguage.bind(this, 'en') },
+	                  React.createElement(
+	                    'a',
+	                    null,
+	                    translate('app.static_pages.language.english')
+	                  )
+	                ),
+	                React.createElement(
+	                  'li',
+	                  { onClick: this.changeLanguage.bind(this, 'jp') },
+	                  React.createElement(
+	                    'a',
+	                    null,
+	                    translate('app.static_pages.language.japanese')
+	                  )
+	                )
+	              )
+	            ),
 	            !this.state.is_signed ? [React.createElement(
 	              'li',
 	              { key: 0, onClick: this.signUpClick.bind(this) },
@@ -27779,7 +27851,7 @@
 	                  React.createElement(
 	                    'a',
 	                    null,
-	                    '\u6295\u7A3F\u3057\u305F\u30EC\u30D3\u30E5\u30FC'
+	                    translate('app.static_pages.added')
 	                  )
 	                ),
 	                React.createElement('li', { role: 'separator', className: 'divider' }),
@@ -27815,7 +27887,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var BASE_URL = exports.BASE_URL = 'https://hotel-review-quangduybk95-1.c9users.io';
+	var BASE_URL = exports.BASE_URL = 'http://localhost:3000';
 	var HOTELS_API = exports.HOTELS_API = BASE_URL + '/api/hotels/';
 	var API_USER_INFO_URL = exports.API_USER_INFO_URL = BASE_URL + '/api/users/';
 	var API_SIGN_UP_URL = exports.API_SIGN_UP_URL = BASE_URL + '/api/sign_up';
@@ -31450,7 +31522,7 @@
 	    value: function render() {
 	      var _this3 = this;
 
-	      var options = [{ value: 'one', label: 'Time newest', type: 1 }, { value: 'two', label: 'Cost desc', type: 2 }, { value: 'three', label: 'Cost asc', type: 3 }];
+	      var options = [{ value: 'one', label: translate('app.static_pages.filter_time_newest'), type: 1 }, { value: 'two', label: translate('app.static_pages.filter_cost_max'), type: 2 }, { value: 'three', label: translate('app.static_pages.filter_cost_min'), type: 3 }];
 	      return React.createElement(
 	        'div',
 	        { className: 'hotels-index' },
@@ -31500,13 +31572,13 @@
 	                  React.createElement(
 	                    'div',
 	                    { className: 'form-group' },
-	                    React.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search', value: this.state.search_by_name,
+	                    React.createElement('input', { type: 'text', className: 'form-control', placeholder: translate('app.static_pages.search'), value: this.state.search_by_name,
 	                      onChange: this.searchChange.bind(this) })
 	                  ),
 	                  React.createElement(
 	                    'button',
 	                    { className: 'btn btn-primary', onClick: this.search.bind(this) },
-	                    '\u691C\u7D22'
+	                    translate('app.static_pages.search')
 	                  )
 	                )
 	              ),
@@ -31525,7 +31597,7 @@
 	                  React.createElement(
 	                    'button',
 	                    { className: 'btn btn-primary', onClick: this.searchByStars.bind(this) },
-	                    '\u661F\u3067\u691C\u7D22'
+	                    translate('app.static_pages.search_by_star')
 	                  )
 	                )
 	              )
@@ -57972,6 +58044,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var translate = __webpack_require__(272);
+
 	var Footer = function (_React$Component) {
 	  _inherits(Footer, _React$Component);
 
@@ -57990,7 +58064,8 @@
 	        React.createElement(
 	          "p",
 	          { className: "text-center" },
-	          "Coredump \u30C1\u30FC\u30E0"
+	          "Coredump ",
+	          translate('app.static_pages.team')
 	        )
 	      );
 	    }
@@ -59668,7 +59743,8 @@
 	          React.createElement(
 	            'p',
 	            { className: 'text-center' },
-	            'Coredump \u30C1\u30FC\u30E0'
+	            'Coredump ',
+	            translate('app.static_pages.team')
 	          )
 	        )
 	      );
@@ -94417,7 +94493,8 @@
 	          React.createElement(
 	            'p',
 	            { className: 'text-center' },
-	            'SIG GROUP'
+	            'Coredump ',
+	            translate('app.static_pages.team')
 	          )
 	        )
 	      );
@@ -94632,7 +94709,8 @@
 	          React.createElement(
 	            'p',
 	            { className: 'text-center' },
-	            'Coredump \u30C1\u30FC\u30E0'
+	            'Coredump ',
+	            translate('app.static_pages.team')
 	          )
 	        )
 	      );
@@ -94674,6 +94752,17 @@
 	      email: 'Eメ-ル'
 	    },
 	    static_pages: {
+	      search: '検索',
+	      search_by_star: '星で検索',
+	      filter_time_newest: '一番新しい',
+	      filter_cost_max: '高い値段から',
+	      filter_cost_min: '低い値段から',
+
+	      language: {
+	        vietnamese: 'Tiếng Việt',
+	        english: 'English',
+	        japanese: '日本語'
+	      },
 	      home_page: 'ホームページ',
 	      app_name: 'ホテルレビュー',
 	      home: 'ホームページ',
@@ -94681,7 +94770,9 @@
 	      'setting': '設定',
 	      signUp: 'サインアップ',
 	      login: 'ログイン',
-	      createReview: 'ホテルレビューを追加する'
+	      createReview: 'ホテルレビューを追加する',
+	      added: '投稿したレビュー',
+	      team: 'チーム'
 	    },
 	    user_info: {
 	      user_info: 'ユ-ザ-情報',
@@ -94706,6 +94797,160 @@
 	      got_account: 'すでにアカウントをお持ちですか？',
 	      login: 'ログイン'
 	    }
+	  }
+	};
+
+/***/ },
+/* 857 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	  app: {
+	    error: {
+	      login_error: 'Password or email wrong',
+	      error: 'Server error',
+	      error_validate: 'Dont be blank',
+	      error_signup: 'Email exist',
+	      success: 'Update success',
+	      request_success: 'Request Sent',
+	      cancel_success: 'Request Cancel'
+	    },
+	    login: {
+	      login_view: 'Login',
+	      sign_up: 'Signup',
+	      not_user: 'Dont have an account?',
+	      error: 'Password wrong',
+	      sign_in: 'Signin',
+	      remember: 'Remember',
+	      forgot_pass: 'Forgot password?',
+	      password: 'Password',
+	      email: 'Email'
+	    },
+	    static_pages: {
+	      search: 'Search',
+	      search_by_star: 'Search by star',
+	      filter_time_newest: 'Newest',
+	      filter_cost_max: 'Expensive from',
+	      filter_cost_min: 'Cheap from',
+
+	      language: {
+	        vietnamese: 'Tiếng Việt',
+	        english: 'English',
+	        japanese: '日本語'
+	      },
+	      home_page: 'Homepage',
+	      app_name: 'Hotel Review',
+	      home: 'Homepage',
+	      'log_out': 'Logout',
+	      'setting': 'Setting',
+	      signUp: 'Signup',
+	      login: 'Login',
+	      createReview: 'Add Review',
+	      added: 'Your reviews',
+	      team: 'Team'
+	    },
+	    user_info: {
+	      user_info: 'User Info',
+	      email: 'Email',
+	      birthday: 'Birthday',
+	      phonenumber: 'Phone number',
+	      name: 'Name',
+	      job: 'Job',
+	      description: 'Description',
+	      update: 'Update',
+	      change_pass: 'Change Password',
+	      current_pass: 'Current password',
+	      new_pass: 'New password',
+	      repeat_pass: 'Password confirm'
+	    },
+	    signup: {
+	      register: 'Register',
+	      email: 'Email',
+	      password: 'password',
+	      password_confirm: 'Password confirm',
+	      submit: 'Signup',
+	      got_account: 'Had a account?',
+	      login: 'Login'
+	    }
+	  }
+	};
+
+/***/ },
+/* 858 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	  app: {
+	    error: {
+	      login_error: 'Mật khẩu hoặc email sai',
+	      error: 'Lỗi hệ thống',
+	      error_validate: 'Bạn không được để trống',
+	      error_signup: 'Tài khoản đã tồn tại hoặc mật khẩu lặp lại sai',
+	      success: 'Cập nhật thành công',
+	      request_success: 'Gửi yêu cầu thành công',
+	      cancel_success: 'Huỷ yêu cầu thành công'
+	    },
+	    static_pages: {
+	      search: 'Tìm kiếm',
+	      search_by_star: 'Tìm kiếm theo số sao',
+	      filter_time_newest: 'Mới nhất',
+	      filter_cost_max: 'Giá từ cao xuống thấp',
+	      filter_cost_min: 'Giá từ thấp lên cao',
+	      language: {
+	        vietnamese: 'Tiếng Việt',
+	        english: 'English',
+	        japanese: '日本語'
+	      },
+	      home_page: 'Trang chủ',
+	      app_name: 'Review khách sạn',
+	      home: 'Trang chủ',
+	      signUp: 'Đăng kí',
+	      login: 'Đăng nhập',
+	      'log_out': 'Đăng xuất',
+	      'setting': 'Thiết lập',
+	      createReview: 'Đăng review',
+	      added: 'Bài đã đăng',
+	      team: 'Nhóm'
+	    },
+	    login: {
+	      login_view: 'Đăng nhập',
+	      sign_up: 'Đăng kí',
+	      not_user: 'Bạn đã có tài khoản chưa?',
+	      error: 'Sai email hoặc mật khẩu',
+	      sign_in: 'Đăng nhập',
+	      remember: 'Ghi nhớ',
+	      forgot_pass: 'Quên mật khẩu',
+	      password: 'Mật khẩu',
+	      email: 'Email'
+	    },
+	    user_info: {
+	      user_info: 'Thông tin người dùng',
+	      email: 'Email',
+	      birthday: 'Ngày sinh',
+	      phonenumber: 'Điện thoại',
+	      name: 'Tên',
+	      job: 'Nghề nghiệp',
+	      description: 'Mô tả',
+	      update: 'Cập nhật',
+	      change_pass: 'Thay đổi mật khẩu',
+	      current_pass: 'Mật khẩu hiện thời',
+	      new_pass: 'Mật khẩu mới',
+	      repeat_pass: 'Nhập lại mật khẩu'
+	    },
+	    signup: {
+	      register: 'Tạo tài khoản ',
+	      email: 'Email',
+	      password: 'Mật khẩu',
+	      password_confirm: 'Nhập lại mật khẩu',
+	      submit: 'Đăng ký',
+	      got_account: 'Đã có tài khoản?',
+	      login: 'Đăng nhập'
+	    }
+
 	  }
 	};
 

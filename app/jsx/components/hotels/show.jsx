@@ -435,7 +435,7 @@ export default class Hotel extends React.Component {
 
         </div>
         <div className="navbar-default" style={{height: '100', paddingTop: '30'}}>
-          <p className="text-center">Coredump チーム</p>
+          <p className="text-center">Coredump {translate('app.static_pages.team')}</p>
         </div>
       </div>
     )

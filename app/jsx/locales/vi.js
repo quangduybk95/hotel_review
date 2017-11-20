@@ -10,13 +10,26 @@ module.exports = {
       cancel_success: 'Huỷ yêu cầu thành công',
     },
     static_pages: {
+      search: 'Tìm kiếm',
+      search_by_star: 'Tìm kiếm theo số sao',
+      filter_time_newest: 'Mới nhất',
+      filter_cost_max: 'Giá từ cao xuống thấp',
+      filter_cost_min: 'Giá từ thấp lên cao',
+      language: {
+        vietnamese: 'Tiếng Việt',
+        english: 'English',
+        japanese: '日本語'
+      },
       home_page: 'Trang chủ',
-      app_name: 'Giao thông an toàn',
+      app_name: 'Review khách sạn',
       home: 'Trang chủ',
-      violations: 'Dữ liệu lỗi phạt',
-      create_location: 'Tạo điểm mới',
+      signUp: 'Đăng kí',
+      login: 'Đăng nhập',
       'log_out': 'Đăng xuất',
       'setting': 'Thiết lập',
+      createReview: 'Đăng review',
+      added: 'Bài đã đăng',
+      team: 'Nhóm'
     },
     login: {
       login_view: 'Đăng nhập',
@@ -30,7 +43,7 @@ module.exports = {
       email: 'Email'
     },
     user_info: {
-      user_info: 'Thôn tin người dùng',
+      user_info: 'Thông tin người dùng',
       email: 'Email',
       birthday: 'Ngày sinh',
       phonenumber: 'Điện thoại',

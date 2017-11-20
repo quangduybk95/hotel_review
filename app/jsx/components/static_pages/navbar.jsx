@@ -6,22 +6,40 @@ export default class Navbar extends React.Component {
     super(props);
     this.state = {
       email: '', is_signed: false,
-      user_id: ''
+      user_id: '', locale: ''
     };
 
   }
 
   componentWillMount() {
+    let locale = localStorage.locale;
+    let locale_name = translate('app.static_pages.language.english');
+
+    switch (locale) {
+      case 'en':
+        locale_name = translate('app.static_pages.language.english');
+        break;
+      case 'vi':
+        locale_name = translate('app.static_pages.language.vietnamese');
+        break;
+      case 'jp':
+        locale_name = translate('app.static_pages.language.japanese');
+        break;
+      default:
+        break;
+    }
+
     if (localStorage.grUser != null) {
       let gr_user = JSON.parse(localStorage.grUser);
       this.setState({
         email: gr_user.email,
         is_signed: true,
         user_id: gr_user.user_id,
+        locale: locale_name
       });
     }
     else {
-      this.setState({is_signed: false});
+      this.setState({is_signed: false, locale: locale_name});
     }
   }
 
@@ -60,8 +78,14 @@ export default class Navbar extends React.Component {
     window.location = constant.SIGN_IN_URL
   }
 
-  postedHotel(){
-    window.location = constant.USERS_IMPORT+ this.state.user_id
+  postedHotel() {
+    window.location = constant.USERS_IMPORT + this.state.user_id
+  }
+
+  changeLanguage(locale) {
+    localStorage.setItem('locale', locale);
+    translate.setLocale(locale);
+    window.location.reload();
   }
 
   render() {
@@ -81,6 +105,24 @@ export default class Navbar extends React.Component {
               >{translate('app.static_pages.createReview')}</a></li>}
           </ul>
           <ul className="nav navbar-nav navbar-right">
+            <li className='dropdown'>
+              <a className='dropdown-toggle' data-toggle='dropdown'
+                 role='button' aria-haspopup='true' aria-expanded='false'>
+                {this.state.locale}
+                <span className='caret'></span>
+              </a>
+              <ul className='dropdown-menu'>
+                <li onClick={this.changeLanguage.bind(this, 'vi')}>
+                  <a>{translate('app.static_pages.language.vietnamese')}</a>
+                </li>
+                <li onClick={this.changeLanguage.bind(this, 'en')}>
+                  <a>{translate('app.static_pages.language.english')}</a>
+                </li>
+                <li onClick={this.changeLanguage.bind(this, 'jp')}>
+                  <a>{translate('app.static_pages.language.japanese')}</a>
+                </li>
+              </ul>
+            </li>
             {!this.state.is_signed ?
               [<li key={0} onClick={this.signUpClick.bind(this)}><a ><span className="glyphicon glyphicon-user"></span>
                 {translate('app.static_pages.signUp')}</a>
@@ -102,7 +144,7 @@ export default class Navbar extends React.Component {
                     <a>{translate('app.static_pages.setting')}</a>
                   </li>
                   <li onClick={this.postedHotel.bind(this)}>
-                    <a>投稿したレビュー</a>
+                    <a>{translate('app.static_pages.added')}</a>
                   </li>
                   <li role='separator' className='divider'></li>
                   <li onClick={this.signOut.bind(this)}>

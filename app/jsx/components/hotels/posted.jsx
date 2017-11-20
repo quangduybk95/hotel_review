@@ -101,7 +101,7 @@ export default class Posted extends React.Component {
           </div>
         </div>
         <div className="footer-non-static navbar-inverse">
-          <p className="text-center">Coredump チーム</p>
+          <p className="text-center">Coredump {translate('app.static_pages.team')}</p>
         </div>
 
       </div>

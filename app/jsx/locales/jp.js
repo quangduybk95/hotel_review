@@ -21,6 +21,17 @@ module.exports = {
       email: 'Eメ-ル'
     },
     static_pages: {
+      search: '検索',
+      search_by_star: '星で検索',
+      filter_time_newest: '一番新しい',
+      filter_cost_max: '高い値段から',
+      filter_cost_min: '低い値段から',
+
+      language: {
+        vietnamese: 'Tiếng Việt',
+        english: 'English',
+        japanese: '日本語'
+      },
       home_page: 'ホームページ',
       app_name: 'ホテルレビュー',
       home: 'ホームページ',
@@ -28,7 +39,9 @@ module.exports = {
       'setting': '設定',
       signUp: 'サインアップ',
       login: 'ログイン',
-      createReview: 'ホテルレビューを追加する'
+      createReview: 'ホテルレビューを追加する',
+      added: '投稿したレビュー',
+      team: 'チーム'
     },
     user_info: {
       user_info: 'ユ-ザ-情報',

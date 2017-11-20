@@ -145,9 +145,9 @@ export default class Hotels extends React.Component {
 
   render() {
     var options = [
-      {value: 'one', label: 'Time newest', type: 1},
-      {value: 'two', label: 'Cost desc', type: 2},
-      {value: 'three', label: 'Cost asc', type: 3}
+      {value: 'one', label: translate('app.static_pages.filter_time_newest'), type: 1},
+      {value: 'two', label: translate('app.static_pages.filter_cost_max'), type: 2},
+      {value: 'three', label: translate('app.static_pages.filter_cost_min'), type: 3}
     ];
     return (
       <div className="hotels-index">
@@ -176,10 +176,10 @@ export default class Hotels extends React.Component {
               <div className="row">
                 <div className="navbar-form">
                   <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Search" value={this.state.search_by_name}
+                    <input type="text" className="form-control" placeholder={translate('app.static_pages.search')} value={this.state.search_by_name}
                            onChange={this.searchChange.bind(this)}/>
                   </div>
-                  <button className="btn btn-primary" onClick={this.search.bind(this)}>検索</button>
+                  <button className="btn btn-primary" onClick={this.search.bind(this)}>{translate('app.static_pages.search')}</button>
                 </div>
               </div>
               <div className="row">
@@ -188,7 +188,7 @@ export default class Hotels extends React.Component {
                     <input type="number" min={1} max={7} className="form-control" placeholder="Search"
                            value={this.state.search_stars} onChange={this.searchStarsChange.bind(this)}/>
                   </div>
-                  <button className="btn btn-primary" onClick={this.searchByStars.bind(this)}>星で検索</button>
+                  <button className="btn btn-primary" onClick={this.searchByStars.bind(this)}>{translate('app.static_pages.search_by_star')}</button>
                 </div>
               </div>
             </div>

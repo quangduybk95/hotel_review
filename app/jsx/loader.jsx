@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom';
 import Routes from './routes';
 import {browserHistory} from 'react-router';
 let translate = require('counterpart');
+translate.registerTranslations('en', require('./locales/en'));
+translate.registerTranslations('vi', require('./locales/vi'));
 translate.registerTranslations('jp', require('./locales/jp'));
 
 if (localStorage.locale == null) {
