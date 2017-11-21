@@ -15,3 +15,4 @@ json.hotel do
     json.image review.user.profile.avatar
   end
 end
+json.near Hotel.random.limit(4)

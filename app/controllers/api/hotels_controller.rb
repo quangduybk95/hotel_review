@@ -62,8 +62,9 @@ module Api
 
     def search_by_name
       query = "%#{params[:search]}%"
-      @hotels = Hotel.where("name like ?", query)
+      @hotels = Hotel.where("name like ? OR description like ?", query, query)
     end
+
   end
 
 end

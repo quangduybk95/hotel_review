@@ -1,6 +1,7 @@
 import moment from 'moment'
 import * as constant from  '../../constant';
 import StarRatingComponent from 'react-star-rating-component';
+let translate = require('counterpart');
 
 export default class Comment extends React.Component {
   constructor(props) {
@@ -31,9 +32,9 @@ export default class Comment extends React.Component {
   
   renderLike(){
     if (this.state.liked)
-      return [(<div><button className="btn btn-primary" onClick={this.likeClick.bind(this)}>ライク</button></div>),<span>誰もライクしていません</span>]
+      return [(<div><button className="btn btn-primary" onClick={this.likeClick.bind(this)}>{translate("app.show.like")}</button></div>),<span>{translate("app.show.nolike")}</span>]
     else 
-      return ([<div><button className="btn btn-danger" onClick={this.likeClick.bind(this)}>ライクしない</button></div>,<span> 一人ライクしました</span>])
+      return ([<div><button className="btn btn-danger" onClick={this.likeClick.bind(this)}>{translate("app.show.unlike")}</button></div>,<span>{translate("app.show.onelike")}</span>])
   }
 
 

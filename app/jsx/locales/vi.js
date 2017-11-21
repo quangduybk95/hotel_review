@@ -92,7 +92,11 @@ module.exports = {
       unlike: 'Bỏ thích',
       review_list: 'Danh sách review',
       write_comment: 'Viết bình luận',
-      day: 'Ngày'
+      day: 'Ngày',
+      relation: 'Khách sạn liên quan',
+      nolike: 'Chưa ai thích',
+      onelike: 'Có 1 người đã thích'
+
     }
 
   }

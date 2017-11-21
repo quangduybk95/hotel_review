@@ -5,4 +5,5 @@ class Hotel < ApplicationRecord
   belongs_to :user
   has_many :reviews
   has_many :likes
+  scope :random, -> { order(Arel::Nodes::NamedFunction.new('RANDOM', [])) }
 end

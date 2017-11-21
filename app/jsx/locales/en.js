@@ -93,7 +93,11 @@ module.exports = {
       unlike: 'Unlike',
       review_list: 'List review',
       write_comment: 'Write comment',
-      day: 'day'
+      day: 'day',
+      relation: 'Related hotels',
+      nolike: 'No one liked this',
+      onelike: 'One person liked this'
+
     }
 
   }

@@ -59,9 +59,9 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var translate = __webpack_require__(272);
-	translate.registerTranslations('en', __webpack_require__(857));
-	translate.registerTranslations('vi', __webpack_require__(858));
-	translate.registerTranslations('jp', __webpack_require__(856));
+	translate.registerTranslations('en', __webpack_require__(856));
+	translate.registerTranslations('vi', __webpack_require__(857));
+	translate.registerTranslations('jp', __webpack_require__(858));
 
 	if (localStorage.locale == null) {
 	  localStorage.setItem('locale', 'jp');
@@ -59183,6 +59183,10 @@
 
 	var _SearchBox2 = _interopRequireDefault(_SearchBox);
 
+	var _moment = __webpack_require__(366);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -59260,7 +59264,8 @@
 	      markers: [],
 	      origin: new google.maps.LatLng(10.7810137, 106.6829672),
 	      destination: new google.maps.LatLng(10.7810137, 106.6829672),
-	      directions: null
+	      directions: null,
+	      near: []
 	    };
 	    return _this;
 	  }
@@ -59315,6 +59320,13 @@
 	          lng: response.data.hotel.info.longitude
 	        };
 
+	        response.data.near.map(function (hotel, index) {
+	          var image = { url: '' };
+	          if (hotel.image.url == null) image.url = constant.DEFAULT_IMAGE;else image = hotel.image;
+	          hotel.image = image;
+	          return hotel;
+	        });
+
 	        var myMarker = {
 	          position: position
 	        };
@@ -59328,6 +59340,7 @@
 	          newReview_comment: '',
 	          markers: [myMarker],
 	          center: position,
+	          near: response.data.near,
 	          origin: new google.maps.LatLng(response.data.hotel.info.latitude, response.data.hotel.info.longitude),
 	          destination: new google.maps.LatLng(response.data.hotel.info.latitude, response.data.hotel.info.longitude)
 	        });
@@ -59487,6 +59500,11 @@
 	      window.open(link);
 	    }
 	  }, {
+	    key: 'hotelClick',
+	    value: function hotelClick(index) {
+	      window.location = constant.HOTEL_URL + this.state.near[index].id;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this3 = this;
@@ -59528,7 +59546,8 @@
 	                      React.createElement(
 	                        'button',
 	                        {
-	                          onClick: this.deletePostClick.bind(this), className: 'btn btn-danger' },
+	                          onClick: this.deletePostClick.bind(this),
+	                          className: 'btn btn-danger' },
 	                        translate('app.show.delete')
 	                      )
 	                    ) : ""
@@ -59591,7 +59610,8 @@
 	                    translate('app.show.liked')
 	                  )] : [React.createElement(
 	                    'button',
-	                    { className: 'btn btn-primary', onClick: this.likeBtn.bind(this) },
+	                    { className: 'btn btn-primary',
+	                      onClick: this.likeBtn.bind(this) },
 	                    translate('app.show.like')
 	                  ), React.createElement(
 	                    'span',
@@ -59624,6 +59644,47 @@
 	                      onMapClick: this.handleMapClick.bind(this),
 	                      directions: this.state.directions
 	                    })
+	                  )
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'row' },
+	                  React.createElement(
+	                    'div',
+	                    { className: 'col-md-offset-1 col-md-10' },
+	                    React.createElement(
+	                      'legend',
+	                      null,
+	                      translate('app.show.relation')
+	                    ),
+	                    this.state.near.map(function (hotel, index) {
+	                      return React.createElement(
+	                        'div',
+	                        { key: index, className: 'col-md-3', onClick: _this3.hotelClick.bind(_this3, index) },
+	                        React.createElement(
+	                          'div',
+	                          { className: 'hotel text-center pmd-card card-default pmd-z-depth' },
+	                          React.createElement('img', { src: hotel.image.url || hotel.image, width: '100%', height: 200 }),
+	                          React.createElement(
+	                            'p',
+	                            null,
+	                            hotel.name
+	                          ),
+	                          React.createElement(
+	                            'p',
+	                            null,
+	                            hotel.cost,
+	                            '$/\u65E5'
+	                          ),
+	                          React.createElement(
+	                            'p',
+	                            null,
+	                            (0, _moment2.default)(new Date(hotel.created_at)).format('DD/MM/YYYY, h:mm:ss a')
+	                          )
+	                        )
+	                      );
+	                    }),
+	                    React.createElement('hr', null)
 	                  )
 	                ),
 	                React.createElement(
@@ -59695,7 +59756,8 @@
 	                      ),
 	                      React.createElement(
 	                        'button',
-	                        { onClick: this.createReview.bind(this), className: 'col-md-3 btn btn-primary' },
+	                        { onClick: this.createReview.bind(this),
+	                          className: 'col-md-3 btn btn-primary' },
 	                        translate('app.show.create')
 	                      )
 	                    )
@@ -60007,6 +60069,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var translate = __webpack_require__(272);
+
 	var Comment = function (_React$Component) {
 	  _inherits(Comment, _React$Component);
 
@@ -60050,24 +60114,24 @@
 	        React.createElement(
 	          'button',
 	          { className: 'btn btn-primary', onClick: this.likeClick.bind(this) },
-	          '\u30E9\u30A4\u30AF'
+	          translate("app.show.like")
 	        )
 	      ), React.createElement(
 	        'span',
 	        null,
-	        '\u8AB0\u3082\u30E9\u30A4\u30AF\u3057\u3066\u3044\u307E\u305B\u3093'
+	        translate("app.show.nolike")
 	      )];else return [React.createElement(
 	        'div',
 	        null,
 	        React.createElement(
 	          'button',
 	          { className: 'btn btn-danger', onClick: this.likeClick.bind(this) },
-	          '\u30E9\u30A4\u30AF\u3057\u306A\u3044'
+	          translate("app.show.unlike")
 	        )
 	      ), React.createElement(
 	        'span',
 	        null,
-	        ' \u4E00\u4EBA\u30E9\u30A4\u30AF\u3057\u307E\u3057\u305F'
+	        translate("app.show.onelike")
 	      )];
 	    }
 	  }, {
@@ -94736,112 +94800,6 @@
 	module.exports = {
 	  app: {
 	    error: {
-	      login_error: 'パスワードとかメールは間違いました',
-	      error: 'サーバからのエラー',
-	      error_validate: '空白にしないでください',
-	      error_signup: 'アカウントが存在しましたとかパスワードが間違いました',
-	      success: 'アップデートしました',
-	      request_success: '要求を送りました',
-	      cancel_success: '要求をやめました'
-	    },
-	    login: {
-	      login_view: 'ログイン',
-	      sign_up: 'サインアップ',
-	      not_user: 'アカウントがありませんか？',
-	      error: '電子メ-ルまたはパスワ-ドが間違っている',
-	      sign_in: 'サインイン',
-	      remember: '私を覚えてますか',
-	      forgot_pass: 'パスワ-ドをお忘れですか',
-	      password: 'パスワ-ド',
-	      email: 'Eメ-ル'
-	    },
-	    static_pages: {
-	      search: '検索',
-	      search_by_star: '星で検索',
-	      filter_time_newest: '一番新しい',
-	      filter_cost_max: '高い値段から',
-	      filter_cost_min: '低い値段から',
-
-	      language: {
-	        vietnamese: 'Tiếng Việt',
-	        english: 'English',
-	        japanese: '日本語'
-	      },
-	      home_page: 'ホームページ',
-	      app_name: 'ホテルレビュー',
-	      home: 'ホームページ',
-	      'log_out': 'ログアウト',
-	      'setting': '設定',
-	      signUp: 'サインアップ',
-	      login: 'ログイン',
-	      createReview: 'ホテルレビューを追加する',
-	      added: '投稿したレビュー',
-	      team: 'チーム'
-	    },
-	    user_info: {
-	      user_info: 'ユ-ザ-情報',
-	      email: 'Eメ-ル',
-	      birthday: 'お誕生日',
-	      phonenumber: '電話',
-	      name: '名',
-	      job: 'ジョブ',
-	      description: '説明',
-	      update: '更新',
-	      change_pass: 'パスワ-ドを変更する',
-	      current_pass: '現在のパスワ-ド',
-	      new_pass: '新しいパスワ-ド',
-	      repeat_pass: 'パスワ-ドを再度入力してください'
-	    },
-	    signup: {
-	      register: '登録',
-	      email: 'メール',
-	      password: 'パスワード',
-	      password_confirm: 'パスワードを再入力',
-	      submit: 'サインアップ',
-	      got_account: 'すでにアカウントをお持ちですか？',
-	      login: 'ログイン'
-	    },
-	    new: {
-	      info: 'ホテルのインフォメーション',
-	      name: '名前',
-	      phone: '電話番号',
-	      address: '住所',
-	      rate: '評価',
-	      cost: '価格',
-	      stars: '星',
-	      link: 'リンク',
-	      description: '記述',
-	      review: 'レビュー',
-	      create: '投稿',
-	      searchbox: 'ホテルの住所を入力してください'
-	    },
-	    show: {
-	      delete: '削除',
-	      get: 'すぐ予約する',
-	      like: 'ライクする',
-	      you: 'あなたと',
-	      liked: '人がライクした',
-	      edit: '編集',
-	      create: '投稿',
-	      update: 'アップデート',
-	      review: 'レビュー',
-	      unlike: 'ライクしない',
-	      review_list: 'レビュー一覧',
-	      write_comment: 'コメントを入力してください',
-	      day: '日'
-	    }
-	  }
-	};
-
-/***/ },
-/* 857 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	module.exports = {
-	  app: {
-	    error: {
 	      login_error: 'Password or email wrong',
 	      error: 'Server error',
 	      error_validate: 'Dont be blank',
@@ -94934,14 +94892,18 @@
 	      unlike: 'Unlike',
 	      review_list: 'List review',
 	      write_comment: 'Write comment',
-	      day: 'day'
+	      day: 'day',
+	      relation: 'Related hotels',
+	      nolike: 'No one liked this',
+	      onelike: 'One person liked this'
+
 	    }
 
 	  }
 	};
 
 /***/ },
-/* 858 */
+/* 857 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -95040,9 +95002,122 @@
 	      unlike: 'Bỏ thích',
 	      review_list: 'Danh sách review',
 	      write_comment: 'Viết bình luận',
-	      day: 'Ngày'
+	      day: 'Ngày',
+	      relation: 'Khách sạn liên quan',
+	      nolike: 'Chưa ai thích',
+	      onelike: 'Có 1 người đã thích'
+
 	    }
 
+	  }
+	};
+
+/***/ },
+/* 858 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	  app: {
+	    error: {
+	      login_error: 'パスワードとかメールは間違いました',
+	      error: 'サーバからのエラー',
+	      error_validate: '空白にしないでください',
+	      error_signup: 'アカウントが存在しましたとかパスワードが間違いました',
+	      success: 'アップデートしました',
+	      request_success: '要求を送りました',
+	      cancel_success: '要求をやめました'
+	    },
+	    login: {
+	      login_view: 'ログイン',
+	      sign_up: 'サインアップ',
+	      not_user: 'アカウントがありませんか？',
+	      error: '電子メ-ルまたはパスワ-ドが間違っている',
+	      sign_in: 'サインイン',
+	      remember: '私を覚えてますか',
+	      forgot_pass: 'パスワ-ドをお忘れですか',
+	      password: 'パスワ-ド',
+	      email: 'Eメ-ル'
+	    },
+	    static_pages: {
+	      search: '検索',
+	      search_by_star: '星で検索',
+	      filter_time_newest: '一番新しい',
+	      filter_cost_max: '高い値段から',
+	      filter_cost_min: '低い値段から',
+
+	      language: {
+	        vietnamese: 'Tiếng Việt',
+	        english: 'English',
+	        japanese: '日本語'
+	      },
+	      home_page: 'ホームページ',
+	      app_name: 'ホテルレビュー',
+	      home: 'ホームページ',
+	      'log_out': 'ログアウト',
+	      'setting': '設定',
+	      signUp: 'サインアップ',
+	      login: 'ログイン',
+	      createReview: 'ホテルレビューを追加する',
+	      added: '投稿したレビュー',
+	      team: 'チーム'
+	    },
+	    user_info: {
+	      user_info: 'ユ-ザ-情報',
+	      email: 'Eメ-ル',
+	      birthday: 'お誕生日',
+	      phonenumber: '電話',
+	      name: '名',
+	      job: 'ジョブ',
+	      description: '説明',
+	      update: '更新',
+	      change_pass: 'パスワ-ドを変更する',
+	      current_pass: '現在のパスワ-ド',
+	      new_pass: '新しいパスワ-ド',
+	      repeat_pass: 'パスワ-ドを再度入力してください'
+	    },
+	    signup: {
+	      register: '登録',
+	      email: 'メール',
+	      password: 'パスワード',
+	      password_confirm: 'パスワードを再入力',
+	      submit: 'サインアップ',
+	      got_account: 'すでにアカウントをお持ちですか？',
+	      login: 'ログイン'
+	    },
+	    new: {
+	      info: 'ホテルのインフォメーション',
+	      name: '名前',
+	      phone: '電話番号',
+	      address: '住所',
+	      rate: '評価',
+	      cost: '価格',
+	      stars: '星',
+	      link: 'リンク',
+	      description: '記述',
+	      review: 'レビュー',
+	      create: '投稿',
+	      searchbox: 'ホテルの住所を入力してください'
+	    },
+	    show: {
+	      delete: '削除',
+	      get: 'すぐ予約する',
+	      like: 'ライクする',
+	      you: 'あなたと',
+	      liked: '人がライクした',
+	      edit: '編集',
+	      create: '投稿',
+	      update: 'アップデート',
+	      review: 'レビュー',
+	      unlike: 'ライクしない',
+	      review_list: 'レビュー一覧',
+	      write_comment: 'コメントを入力してください',
+	      day: '日',
+	      relation: '関係のホテル',
+	      nolike: '誰もライクしていません',
+	      onelike: '一人ライクしました'
+	    }
 	  }
 	};
 

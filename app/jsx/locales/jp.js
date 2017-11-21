@@ -93,7 +93,10 @@ module.exports = {
       unlike: 'ライクしない',
       review_list: 'レビュー一覧',
       write_comment: 'コメントを入力してください',
-      day: '日'
+      day: '日',
+      relation: '関係のホテル',
+      nolike: '誰もライクしていません',
+      onelike: '一人ライクしました'
     }
   }
 };

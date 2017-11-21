@@ -12,6 +12,7 @@ import {
 }
   from 'react-google-maps/lib';
 import SearchBox from 'react-google-maps/lib/places/SearchBox';
+import moment from 'moment'
 
 const INPUT_STYLE = {
   boxSizing: 'border-box',
@@ -73,6 +74,7 @@ export default class Hotel extends React.Component {
       origin: new google.maps.LatLng(10.7810137, 106.6829672),
       destination: new google.maps.LatLng(10.7810137, 106.6829672),
       directions: null,
+      near: []
     }
   }
 
@@ -123,6 +125,16 @@ export default class Hotel extends React.Component {
           lng: response.data.hotel.info.longitude
         }
 
+        response.data.near.map((hotel, index) => {
+          let image = {url: ''}
+          if (hotel.image.url == null)
+            image.url = constant.DEFAULT_IMAGE;
+          else
+            image = hotel.image
+          hotel.image = image
+          return hotel
+        })
+
         let myMarker = {
           position: position,
         }
@@ -136,6 +148,7 @@ export default class Hotel extends React.Component {
           newReview_comment: '',
           markers: [myMarker],
           center: position,
+          near: response.data.near,
           origin: new google.maps.LatLng(response.data.hotel.info.latitude, response.data.hotel.info.longitude),
           destination: new google.maps.LatLng(response.data.hotel.info.latitude, response.data.hotel.info.longitude),
         })
@@ -299,6 +312,9 @@ export default class Hotel extends React.Component {
   linkClick(link) {
     window.open(link);
   }
+  hotelClick(index) {
+    window.location = constant.HOTEL_URL + this.state.near[index].id
+  }
 
   render() {
     return (
@@ -312,7 +328,8 @@ export default class Hotel extends React.Component {
                 <div className="col-md-5 info-hotel text-center">
                   <legend><h1>{this.state.info.name} Hotel</h1>
                     {this.state.info.user_id == JSON.parse(localStorage.grUser).user_id ? <span><button
-                        onClick={this.deletePostClick.bind(this)} className="btn btn-danger">{translate('app.show.delete')}</button></span>
+                        onClick={this.deletePostClick.bind(this)}
+                        className="btn btn-danger">{translate('app.show.delete')}</button></span>
                       : ""}
                   </legend>
                   <h2>
@@ -339,8 +356,10 @@ export default class Hotel extends React.Component {
                         comment={this.state.reviews[0]} show={0}/>) : ""}
                   </div>
                   {this.state.liked ? [<button className="btn btn-danger" onClick={this.unlikeBtn.bind(this)}>
-                      {translate('app.show.unlike')}</button>, <span> {translate('app.show.you')}{this.state.like - 1} {translate('app.show.liked')}</span>] :
-                    [<button className="btn btn-primary" onClick={this.likeBtn.bind(this)}>{translate('app.show.like')}</button>,
+                      {translate('app.show.unlike')}</button>,
+                      <span> {translate('app.show.you')}{this.state.like - 1} {translate('app.show.liked')}</span>] :
+                    [<button className="btn btn-primary"
+                             onClick={this.likeBtn.bind(this)}>{translate('app.show.like')}</button>,
                       <span> {this.state.like} {translate('app.show.liked')}</span>]}
                 </div>
                 <div className="col-md-7 text-center img-hotel">
@@ -363,6 +382,22 @@ export default class Hotel extends React.Component {
                       onMapClick={this.handleMapClick.bind(this)}
                       directions={this.state.directions}
                     />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-offset-1 col-md-10">
+                    <legend>{translate('app.show.relation')}</legend>
+                    {this.state.near.map((hotel, index) => {
+                      return (<div key={index} className="col-md-3" onClick={this.hotelClick.bind(this, index)}>
+                        <div className="hotel text-center pmd-card card-default pmd-z-depth">
+                          <img src={hotel.image.url || hotel.image} width="100%" height={200}/>
+                          <p>{hotel.name}</p>
+                          <p>{hotel.cost}$/日</p>
+                          <p>{moment(new Date(hotel.created_at)).format('DD/MM/YYYY, h:mm:ss a')}</p>
+                        </div>
+                      </div>)
+                    })}
+                    <hr/>
                   </div>
                 </div>
                 <div className="row">
@@ -397,7 +432,8 @@ export default class Hotel extends React.Component {
                           onStarClick={this.onStarClick.bind(this)}
                         />
                       </div>
-                      <button onClick={this.createReview.bind(this)} className="col-md-3 btn btn-primary">{translate('app.show.create')}</button>
+                      <button onClick={this.createReview.bind(this)}
+                              className="col-md-3 btn btn-primary">{translate('app.show.create')}</button>
                     </div>
 
                   </div>
