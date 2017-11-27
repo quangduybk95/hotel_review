@@ -97,26 +97,30 @@ export default class Hotel extends React.Component {
   }
 
   createBookroom() {
-    debugger
-    let formData = new FormData();
-    formData.append('bookroom[user_id]', JSON.parse(localStorage.grUser).user_id);
-    formData.append('bookroom[hotel_id]', this.props.params.hotel_id);
-    formData.append('bookroom[start]', moment(this.state.startDate).format('YYYY/MM/DD'));
-    formData.append('bookroom[end]', moment(this.state.endDate).format('YYYY/MM/DD'));
+    if (this.state.endDate > this.state.startDate) {
+      let formData = new FormData();
+      formData.append('bookroom[user_id]', JSON.parse(localStorage.grUser).user_id);
+      formData.append('bookroom[hotel_id]', this.props.params.hotel_id);
+      formData.append('bookroom[start]', moment(this.state.startDate).format('YYYY/MM/DD'));
+      formData.append('bookroom[end]', moment(this.state.endDate).format('YYYY/MM/DD'));
 
-    axios.post(constant.BOOKED_API, formData)
-      .then(response => {
-        if (response.data.status == 200) {
-          this.showAlert(translate('app.error.success'));
-          window.location = constant.BOOKED_URL + JSON.parse(localStorage.grUser).user_id
-        }
-        else {
-        }
+      axios.post(constant.BOOKED_API, formData)
+        .then(response => {
+          if (response.data.status == 200) {
+            this.showAlert(translate('app.error.success'));
+            window.location = constant.BOOKED_URL + JSON.parse(localStorage.grUser).user_id
+          }
+          else {
+          }
 
-      })
-      .catch(error => {
-        this.showAlert(translate('app.error.error_validate'));
-      });
+        })
+        .catch(error => {
+          this.showAlert(translate('app.error.error_validate'));
+        });
+    }
+    else {
+      this.showAlert(translate('app.error.error_validate'));
+    }
   }
 
   handleMapClick(event) {
@@ -403,7 +407,8 @@ export default class Hotel extends React.Component {
                           </div>
                         </div>
                         <div className="row text-center">
-                          <button onClick={this.createBookroom.bind(this)} className="btn btn-primary">{translate('app.show.get')}</button>
+                          <button onClick={this.createBookroom.bind(this)}
+                                  className="btn btn-primary">{translate('app.show.get')}</button>
                         </div>
                       </div>
                     </div> : ""}
