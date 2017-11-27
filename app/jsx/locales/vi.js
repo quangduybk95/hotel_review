@@ -29,6 +29,7 @@ module.exports = {
       'setting': 'Thiết lập',
       createReview: 'Đăng review',
       added: 'Bài đã đăng',
+      booked: "Đã đặt",
       team: 'Nhóm'
     },
     login: {
@@ -95,9 +96,10 @@ module.exports = {
       day: 'Ngày',
       relation: 'Khách sạn liên quan',
       nolike: 'Chưa ai thích',
-      onelike: 'Có 1 người đã thích'
-
-    }
+      onelike: 'Có 1 người đã thích',
+      start: 'Từ ngày',
+      end: 'Đến ngày'
+    },
 
   }
 };

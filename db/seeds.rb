@@ -55,3 +55,12 @@ Hotel.all.each do |hotel|
     )
   end
 end
+
+User.all.each do |user|
+  Bookroom.create(
+         user_id: user.id,
+         hotel_id: rand(1..30),
+         start: rand(5.days.from_now..10.days.from_now),
+         end: rand(11.days.from_now..15.days.from_now)
+  )
+end

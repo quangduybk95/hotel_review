@@ -8,6 +8,7 @@ import UserInfo from './components/users/user_info'
 import Hotel from './components/hotels/show'
 import New_Hotel from './components/hotels/new'
 import Posted from './components/hotels/posted'
+import Booked from './components/hotels/booked'
 const Routes = (props) => (
   <Router {...props}>
     <Route path='/' component={Home}/>
@@ -18,7 +19,7 @@ const Routes = (props) => (
     <Route path='/show/:hotel_id' component={Hotel}/>
     <Route path='/create' component={New_Hotel}/>
     <Route path='/posted/:user_id' component={Posted}/>
-
+    <Route path='/booked/:user_id' component={Booked}/>
   </Router>
 );
 export default Routes;

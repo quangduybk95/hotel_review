@@ -41,7 +41,9 @@ module.exports = {
       login: 'ログイン',
       createReview: 'ホテルレビューを追加する',
       added: '投稿したレビュー',
-      team: 'チーム'
+      team: 'チーム',
+      booked: "予約したホテル",
+
     },
     user_info: {
       user_info: 'ユ-ザ-情報',
@@ -96,7 +98,9 @@ module.exports = {
       day: '日',
       relation: '関係のホテル',
       nolike: '誰もライクしていません',
-      onelike: '一人ライクしました'
+      onelike: '一人ライクしました',
+      start: '初めの日',
+      end: '終わりの日'
     }
   }
 };

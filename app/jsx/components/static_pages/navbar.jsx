@@ -87,7 +87,9 @@ export default class Navbar extends React.Component {
     translate.setLocale(locale);
     window.location.reload();
   }
-
+  bookedHotel(){
+    window.location = constant.BOOKED_URL + this.state.user_id
+  }
   render() {
     return (
       <nav className="navbar navbar-default">
@@ -145,6 +147,9 @@ export default class Navbar extends React.Component {
                   </li>
                   <li onClick={this.postedHotel.bind(this)}>
                     <a>{translate('app.static_pages.added')}</a>
+                  </li>
+                  <li onClick={this.bookedHotel.bind(this)}>
+                    <a>{translate('app.static_pages.booked')}</a>
                   </li>
                   <li role='separator' className='divider'></li>
                   <li onClick={this.signOut.bind(this)}>

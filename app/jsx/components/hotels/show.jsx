@@ -13,6 +13,8 @@ import {
   from 'react-google-maps/lib';
 import SearchBox from 'react-google-maps/lib/places/SearchBox';
 import moment from 'moment'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const INPUT_STYLE = {
   boxSizing: 'border-box',
@@ -74,8 +76,47 @@ export default class Hotel extends React.Component {
       origin: new google.maps.LatLng(10.7810137, 106.6829672),
       destination: new google.maps.LatLng(10.7810137, 106.6829672),
       directions: null,
-      near: []
+      near: [],
+      book: false,
+      startDate: moment(),
+      endDate: moment()
     }
+  }
+
+  handleChangeStart(date) {
+    console.log(date)
+    this.setState({
+      startDate: date
+    });
+  }
+
+  handleChangeEnd(date) {
+    this.setState({
+      endDate: date
+    });
+  }
+
+  createBookroom() {
+    debugger
+    let formData = new FormData();
+    formData.append('bookroom[user_id]', JSON.parse(localStorage.grUser).user_id);
+    formData.append('bookroom[hotel_id]', this.props.params.hotel_id);
+    formData.append('bookroom[start]', moment(this.state.startDate).format('YYYY/MM/DD'));
+    formData.append('bookroom[end]', moment(this.state.endDate).format('YYYY/MM/DD'));
+
+    axios.post(constant.BOOKED_API, formData)
+      .then(response => {
+        if (response.data.status == 200) {
+          this.showAlert(translate('app.error.success'));
+          window.location = constant.BOOKED_URL + JSON.parse(localStorage.grUser).user_id
+        }
+        else {
+        }
+
+      })
+      .catch(error => {
+        this.showAlert(translate('app.error.error_validate'));
+      });
   }
 
   handleMapClick(event) {
@@ -309,9 +350,10 @@ export default class Hotel extends React.Component {
       });
   }
 
-  linkClick(link) {
-    window.open(link);
+  linkClick() {
+    this.setState({book: !this.state.book})
   }
+
   hotelClick(index) {
     window.location = constant.HOTEL_URL + this.state.near[index].id
   }
@@ -335,11 +377,36 @@ export default class Hotel extends React.Component {
                   <h2>
                     <p>
                       ${this.state.info.cost}/{translate('app.show.day')}
-                      <button onClick={this.linkClick.bind(this, "http://google.com")} style={{marginLeft: '10'}}
+                      <button onClick={this.linkClick.bind(this)} style={{marginLeft: '10'}}
                               className="btn btn-primary">{translate('app.show.get')}
                       </button>
                     </p>
                   </h2>
+                  {this.state.book ? <div>
+                      <div className="row" style={{textAlign: 'left'}}>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>{translate('app.show.start')}</label>
+                            <DatePicker
+                              selected={this.state.startDate}
+                              onChange={this.handleChangeStart.bind(this)}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>{translate('app.show.end')}</label>
+                            <DatePicker
+                              selected={this.state.endDate}
+                              onChange={this.handleChangeEnd.bind(this)}
+                            />
+                          </div>
+                        </div>
+                        <div className="row text-center">
+                          <button onClick={this.createBookroom.bind(this)} className="btn btn-primary">{translate('app.show.get')}</button>
+                        </div>
+                      </div>
+                    </div> : ""}
                   <div className="text-center hotel-stars">
                     <StarRatingComponent
                       name="rate1"
@@ -391,7 +458,7 @@ export default class Hotel extends React.Component {
                       return (<div key={index} className="col-md-3" onClick={this.hotelClick.bind(this, index)}>
                         <div className="hotel text-center pmd-card card-default pmd-z-depth">
                           <img src={hotel.image.url || hotel.image} width="100%" height={200}/>
-                          <p>{hotel.name}</p>
+                          <p>{hotel.name.slice(0, 20)}</p>
                           <p>{hotel.cost}$/日</p>
                           <p>{moment(new Date(hotel.created_at)).format('DD/MM/YYYY, h:mm:ss a')}</p>
                         </div>
@@ -470,7 +537,7 @@ export default class Hotel extends React.Component {
           }
 
         </div>
-        <div className="navbar-default" style={{height: '100', paddingTop: '30'}}>
+        <div className="footer-static navbar-default" style={{height: '100', paddingTop: '30'}}>
           <p className="text-center">Coredump {translate('app.static_pages.team')}</p>
         </div>
       </div>

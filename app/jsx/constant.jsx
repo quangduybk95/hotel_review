@@ -1,5 +1,8 @@
 export const BASE_URL = 'http://localhost:3000';
 export const HOTELS_API = BASE_URL + '/api/hotels/';
+export const BOOKED_API = BASE_URL + '/api/bookrooms/';
+export const BOOKED_URL = BASE_URL + '/booked/';
+
 export const API_USER_INFO_URL = BASE_URL + '/api/users/';
 export const API_SIGN_UP_URL = BASE_URL + '/api/sign_up';
 export const API_USER_UPDATE_URL = BASE_URL + '/api/users/';

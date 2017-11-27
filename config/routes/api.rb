@@ -6,9 +6,10 @@ namespace :api, defaults: {format: "json"} do
     post "sign_in", to: "sessions#create"
     delete "sign_out", to: "sessions#destroy"
     resources :users, only: [:show, :update, :index]
+    resources :bookrooms
     resources :hotels do
       resources :reviews
       resources :likes
     end
-    end
+  end
 end

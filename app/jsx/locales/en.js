@@ -41,7 +41,9 @@ module.exports = {
       login: 'Login',
       createReview: 'Add Review',
       added: 'Your reviews',
-      team: 'Team'
+      team: 'Team',
+      booked: "Booked",
+
     },
     user_info: {
       user_info: 'User Info',
@@ -96,8 +98,9 @@ module.exports = {
       day: 'day',
       relation: 'Related hotels',
       nolike: 'No one liked this',
-      onelike: 'One person liked this'
-
+      onelike: 'One person liked this',
+      start: 'Start date',
+      end: 'End date'
     }
 
   }

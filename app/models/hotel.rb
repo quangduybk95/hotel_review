@@ -6,4 +6,5 @@ class Hotel < ApplicationRecord
   has_many :reviews
   has_many :likes
   scope :random, -> { order(Arel::Nodes::NamedFunction.new('RANDOM', [])) }
+  has_many :bookrooms
 end
